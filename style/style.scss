@@ -1,4 +1,4 @@
-// This stylesheet is written according to BEM naming convention
+// This stylesheet is written according to BEM convention.
 
 // COLORS
 
@@ -21,3 +21,74 @@ $light-font: 'Montserrat', sans-serif;
   text-align: center;
 };
 
+@mixin flex-container {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+@mixin button {
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+}
+
+.body {
+  background-color: $dark-blue;
+}
+
+.header {
+  display: block;
+  margin: 20px auto 0 auto;
+}
+
+.header_title {
+  @include text($bold-font, 50px)
+}
+
+.clock {
+  margin-top: 40px;
+}
+
+.clock_settings {
+  @include flex-container
+}
+
+.settings_container {
+  margin: 0 20px;
+}
+
+.settings_container_title {
+  @include text($light-font, 15px);
+  text-transform: uppercase;
+}
+
+.settings_container_controls {
+  @include flex-container;
+  margin: 10px 0;
+}
+
+.controls_btn {
+  @include text($light-font, 25px);
+  @include button
+}
+
+.controls_value {
+  @include text($light-font, 35px);
+}
+
+
+
+
+
+@media screen and (min-width: 576px) {
+
+  .header {
+    margin: 100px auto 0 auto;
+  }
+
+  .header_title {
+    @include text($bold-font, 75px)
+  }
+
+}

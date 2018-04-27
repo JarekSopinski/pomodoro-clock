@@ -1,3 +1,63 @@
+.body {
+  background-color: #011627; }
 
+.header {
+  display: block;
+  margin: 20px auto 0 auto; }
+
+.header_title {
+  font-family: "Lobster", cursive;
+  font-size: 50px;
+  color: #E0FBFC;
+  text-align: center; }
+
+.clock {
+  margin-top: 40px; }
+
+.clock_settings {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center; }
+
+.settings_container {
+  margin: 0 20px; }
+
+.settings_container_title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #E0FBFC;
+  text-align: center;
+  text-transform: uppercase; }
+
+.settings_container_controls {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  margin: 10px 0; }
+
+.controls_btn {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  color: #E0FBFC;
+  text-align: center;
+  background-color: inherit;
+  border: none;
+  cursor: pointer; }
+
+.controls_value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 35px;
+  color: #E0FBFC;
+  text-align: center; }
+
+@media screen and (min-width: 576px) {
+  .header {
+    margin: 100px auto 0 auto; }
+
+  .header_title {
+    font-family: "Lobster", cursive;
+    font-size: 75px;
+    color: #E0FBFC;
+    text-align: center; } }
 
 /*# sourceMappingURL=style.css.map */
