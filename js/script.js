@@ -90,23 +90,39 @@ const startOrStopTimer = () => {
             break;
         case false:
             state.isTimeRunning = true;
-            startCounter()
+            startCounter(state.status)
     }
 
 
 };
 
-const startCounter = () => {
+const startCounter = (sessionOrBreak) => {
 
-    counter.minutes = state.sessionLength;
-    counter.seconds = 60;
-
-    subtractMinutesAndSeconds();
-    setTimeout(endSession, (state.sessionLength * 60) * 1000);
+    switch (sessionOrBreak) {
+        case "session":
+            counter.minutes = state.sessionLength;
+            subtractMinutesAndSeconds();
+            setTimeout(endSession, (state.sessionLength * 60) * 1000);
+            break;
+        case "shortBreak":
+            counter.minutes = state.shortBreakLength;
+            subtractMinutesAndSeconds();
+            //setTimeout(endSession, (state.sessionLength * 60) * 1000);
+            //TODO: change endSession above with another function
+            break;
+        case "longBreak":
+            counter.minutes = state.longBreakLength;
+            subtractMinutesAndSeconds();
+            //setTimeout(endSession, (state.sessionLength * 60) * 1000);
+            //TODO: change endSession above with another function
+            break;
+    }
 
 };
 
 const subtractMinutesAndSeconds = () => {
+
+    counter.seconds = 60;
 
     if (state.isTimeRunning) {
 
