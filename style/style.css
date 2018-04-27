@@ -42,7 +42,8 @@
   text-align: center;
   background-color: inherit;
   border: none;
-  cursor: pointer; }
+  cursor: pointer;
+  margin: 0 5px; }
 
 .controls_btn:hover {
   color: #FB5607; }
@@ -78,6 +79,7 @@
   color: #E0FBFC;
   text-align: center;
   display: block;
+  margin-bottom: 10px;
   cursor: pointer; }
 
 .timer_time-left:hover {

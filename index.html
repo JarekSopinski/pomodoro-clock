@@ -24,9 +24,9 @@
             <span class="settings_container_title">Session length</span>
             <br>
             <div class="settings_container_controls">
-                <button class="controls_btn">+</button>
-                <span class="controls_value">&nbsp;25&nbsp;</span>
-                <button class="controls_btn">-</button>
+                <button id="js-increase-session-btn" class="controls_btn">+</button>
+                <span id="js-display-session-length" class="controls_value">25</span>
+                <button id="js-decrease-session-btn" class="controls_btn">-</button>
             </div>
         </div>
 
@@ -35,9 +35,9 @@
             <span class="settings_container_title">Short break</span>
             <br>
             <div class="settings_container_controls">
-                <button class="controls_btn">+</button>
-                <span class="controls_value">&nbsp;5&nbsp;</span>
-                <button class="controls_btn">-</button>
+                <button id="js-increase-short-break-btn" class="controls_btn">+</button>
+                <span id="js-display-short-break-length" class="controls_value">5</span>
+                <button id="js-decrease-short-break-btn" class="controls_btn">-</button>
             </div>
         </div>
 
@@ -46,19 +46,19 @@
             <span class="settings_container_title">Long break</span>
             <br>
             <div class="settings_container_controls">
-                <button class="controls_btn">+</button>
-                <span class="controls_value">&nbsp;15&nbsp;</span>
-                <button class="controls_btn">-</button>
+                <button id="js-increase-long-break-btn" class="controls_btn">+</button>
+                <span id="js-display-long-break-length" class="controls_value">15</span>
+                <button id="js-decrease-long-break-btn" class="controls_btn">-</button>
             </div>
         </div>
 
     </div>
 
     <!--DISPLAYING TIME-->
-    <div class="clock_timer">
+    <div id="js-timer" class="clock_timer">
         <div>
-            <span class="timer_status">Session</span>
-            <span class="timer_time-left">25:00</span>
+            <span id="js-display-status" class="timer_status">Session</span>
+            <span id="js-display-time-left" class="timer_time-left">25:00</span>
         </div>
     </div>
 
@@ -67,13 +67,13 @@
         <!--COMPLETED POMODOROS-->
         <div class="pomodoro-counter_container">
             <span class="pomodoro-counter_container_title">Pomodoros completed<br>today</span>
-            <span class="pomodoro-counter_container_value">0</span>
+            <span id="js-display-completed" class="pomodoro-counter_container_value">0</span>
         </div>
 
         <!--POMODOROS TO LONG BREAK-->
         <div class="pomodoro-counter_container">
             <span class="pomodoro-counter_container_title">Pomodoros left<br>to long break</span>
-            <span class="pomodoro-counter_container_value">4</span>
+            <span id="js-display-left-to-long-break" class="pomodoro-counter_container_value">4</span>
         </div>
 
     </div>

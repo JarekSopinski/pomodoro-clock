@@ -70,7 +70,8 @@ $light-font: 'Montserrat', sans-serif;
 
 .controls_btn {
   @include text($light-font, 15px);
-  @include button
+  @include button;
+  margin: 0 5px;
 }
 
 .controls_btn:hover {
@@ -100,6 +101,7 @@ $light-font: 'Montserrat', sans-serif;
 .timer_time-left {
   @include text($light-font, 45px);
   display: block;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
@@ -145,10 +147,6 @@ $light-font: 'Montserrat', sans-serif;
   font-style: italic;
 }
 
-
-
-
-
 @media screen and (min-width: 576px) {
 
   .header_title {
@@ -186,6 +184,5 @@ $light-font: 'Montserrat', sans-serif;
   .timer_time-left {
     @include text($light-font, 60px);
   }
-
 
 }
