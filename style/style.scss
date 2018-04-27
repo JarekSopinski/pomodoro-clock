@@ -1,2 +1,23 @@
 // This stylesheet is written according to BEM naming convention
 
+// COLORS
+
+$dark-blue: #011627;
+$light-cyan: #E0FBFC;
+$bright-yellow: #FF9F1C;
+$azure: #3A86FF;
+$orange: #FB5607;
+$light-green: #9CEC5B;
+
+// FONTS
+
+$bold-font: 'Lobster', cursive;
+$light-font: 'Montserrat', sans-serif;
+
+@mixin text($font, $size) {
+  font-family: $font;
+  font-size: $size;
+  color: $light-cyan;
+  text-align: center;
+};
+
