@@ -47,7 +47,7 @@ $light-font: 'Montserrat', sans-serif;
 }
 
 .clock {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .clock_settings {
@@ -55,7 +55,7 @@ $light-font: 'Montserrat', sans-serif;
 }
 
 .settings_container {
-  margin: 0 20px;
+  margin: 0 5px;
 }
 
 .settings_container_title {
@@ -69,12 +69,38 @@ $light-font: 'Montserrat', sans-serif;
 }
 
 .controls_btn {
-  @include text($light-font, 25px);
+  @include text($light-font, 15px);
   @include button
 }
 
 .controls_value {
-  @include text($light-font, 35px);
+  @include text($light-font, 25px);
+}
+
+.clock_timer {
+  @include flex-container;
+  align-items: center;
+  margin: 20px auto 0 auto;
+  width: 250px;
+  height: 250px;
+  border: 5px $light-cyan solid;
+  border-radius: 50px;
+}
+
+.timer_status {
+  @include text($light-font, 20px);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.timer_time-left {
+  @include text($light-font, 45px);
+  display: block;
+  cursor: pointer;
+}
+
+.timer_time-left:hover {
+  color: $orange;
 }
 
 
@@ -83,12 +109,40 @@ $light-font: 'Montserrat', sans-serif;
 
 @media screen and (min-width: 576px) {
 
-  .header {
-    margin: 100px auto 0 auto;
-  }
-
   .header_title {
     @include text($bold-font, 75px)
+  }
+
+  .clock {
+    margin-top: 40px;
+  }
+
+  .settings_container {
+    margin: 0 20px;
+  }
+
+  .controls_btn {
+    @include text($light-font, 25px);
+    @include button
+  }
+
+  .controls_value {
+    @include text($light-font, 35px);
+  }
+
+  .clock_timer {
+    margin: 40px auto 0 auto;
+    width: 350px;
+    height: 350px;
+  }
+
+  .timer_status {
+    @include text($light-font, 30px);
+    margin-bottom: 30px;
+  }
+
+  .timer_time-left {
+    @include text($light-font, 60px);
   }
 
 }

@@ -12,7 +12,7 @@
   text-align: center; }
 
 .clock {
-  margin-top: 40px; }
+  margin-top: 20px; }
 
 .clock_settings {
   display: flex;
@@ -20,7 +20,7 @@
   justify-content: center; }
 
 .settings_container {
-  margin: 0 20px; }
+  margin: 0 5px; }
 
 .settings_container_title {
   font-family: "Montserrat", sans-serif;
@@ -37,7 +37,7 @@
 
 .controls_btn {
   font-family: "Montserrat", sans-serif;
-  font-size: 25px;
+  font-size: 15px;
   color: #E0FBFC;
   text-align: center;
   background-color: inherit;
@@ -46,17 +46,83 @@
 
 .controls_value {
   font-family: "Montserrat", sans-serif;
-  font-size: 35px;
+  font-size: 25px;
   color: #E0FBFC;
   text-align: center; }
 
-@media screen and (min-width: 576px) {
-  .header {
-    margin: 100px auto 0 auto; }
+.clock_timer {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto 0 auto;
+  width: 250px;
+  height: 250px;
+  border: 5px #E0FBFC solid;
+  border-radius: 50px; }
 
+.timer_status {
+  font-family: "Montserrat", sans-serif;
+  font-size: 20px;
+  color: #E0FBFC;
+  text-align: center;
+  display: block;
+  margin-bottom: 10px; }
+
+.timer_time-left {
+  font-family: "Montserrat", sans-serif;
+  font-size: 45px;
+  color: #E0FBFC;
+  text-align: center;
+  display: block;
+  cursor: pointer; }
+
+.timer_time-left:hover {
+  color: #FB5607; }
+
+@media screen and (min-width: 576px) {
   .header_title {
     font-family: "Lobster", cursive;
     font-size: 75px;
+    color: #E0FBFC;
+    text-align: center; }
+
+  .clock {
+    margin-top: 40px; }
+
+  .settings_container {
+    margin: 0 20px; }
+
+  .controls_btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 25px;
+    color: #E0FBFC;
+    text-align: center;
+    background-color: inherit;
+    border: none;
+    cursor: pointer; }
+
+  .controls_value {
+    font-family: "Montserrat", sans-serif;
+    font-size: 35px;
+    color: #E0FBFC;
+    text-align: center; }
+
+  .clock_timer {
+    margin: 40px auto 0 auto;
+    width: 350px;
+    height: 350px; }
+
+  .timer_status {
+    font-family: "Montserrat", sans-serif;
+    font-size: 30px;
+    color: #E0FBFC;
+    text-align: center;
+    margin-bottom: 30px; }
+
+  .timer_time-left {
+    font-family: "Montserrat", sans-serif;
+    font-size: 60px;
     color: #E0FBFC;
     text-align: center; } }
 
