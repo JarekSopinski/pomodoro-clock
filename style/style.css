@@ -44,6 +44,9 @@
   border: none;
   cursor: pointer; }
 
+.controls_btn:hover {
+  color: #FB5607; }
+
 .controls_value {
   font-family: "Montserrat", sans-serif;
   font-size: 25px;
@@ -79,6 +82,53 @@
 
 .timer_time-left:hover {
   color: #FB5607; }
+
+.clock_pomodoro-counter {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  margin: 40px auto 0 auto; }
+
+.pomodoro-counter_container {
+  margin: 0 20px 20px 0; }
+
+.pomodoro-counter_container_title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #E0FBFC;
+  text-align: center;
+  display: block;
+  margin: 0 auto 10px auto;
+  text-transform: uppercase; }
+
+.pomodoro-counter_container_value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 35px;
+  color: #E0FBFC;
+  text-align: center;
+  display: block;
+  margin: auto; }
+
+.footer {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  margin-top: 20px; }
+
+.footer_text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  color: #E0FBFC;
+  text-align: center; }
+
+.footer_text--name {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  color: #E0FBFC;
+  text-align: center;
+  color: #FB5607;
+  text-decoration: none;
+  font-style: italic; }
 
 @media screen and (min-width: 576px) {
   .header_title {

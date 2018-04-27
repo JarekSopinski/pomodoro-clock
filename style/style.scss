@@ -73,6 +73,10 @@ $light-font: 'Montserrat', sans-serif;
   @include button
 }
 
+.controls_btn:hover {
+  color: $orange;
+}
+
 .controls_value {
   @include text($light-font, 25px);
 }
@@ -101,6 +105,44 @@ $light-font: 'Montserrat', sans-serif;
 
 .timer_time-left:hover {
   color: $orange;
+}
+
+.clock_pomodoro-counter {
+  @include flex-container;
+  margin: 40px auto 0 auto;
+}
+
+.pomodoro-counter_container {
+  margin: 0 20px 20px 0
+}
+
+.pomodoro-counter_container_title {
+  @include text($light-font, 15px);
+  display: block;
+  margin: 0 auto 10px auto;
+  text-transform: uppercase;
+}
+
+.pomodoro-counter_container_value {
+  @include text($light-font, 35px);
+  display: block;
+  margin: auto;
+}
+
+.footer {
+  @include flex-container;
+  margin-top: 20px;
+}
+
+.footer_text {
+  @include text($light-font, 16px)
+}
+
+.footer_text--name {
+  @include text($light-font, 16px);
+  color: $orange;
+  text-decoration: none;
+  font-style: italic;
 }
 
 
@@ -144,5 +186,6 @@ $light-font: 'Montserrat', sans-serif;
   .timer_time-left {
     @include text($light-font, 60px);
   }
+
 
 }
