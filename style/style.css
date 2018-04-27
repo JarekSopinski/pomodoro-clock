@@ -11,10 +11,10 @@
   color: #E0FBFC;
   text-align: center; }
 
-.clock {
+.main {
   margin-top: 20px; }
 
-.clock_settings {
+.main_settings {
   display: flex;
   flex-flow: wrap;
   justify-content: center; }
@@ -54,7 +54,7 @@
   color: #E0FBFC;
   text-align: center; }
 
-.clock_timer {
+.main_timer {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
@@ -85,16 +85,16 @@
 .timer_time-left:hover {
   color: #FB5607; }
 
-.clock_pomodoro-counter {
+.main_sessions-counter {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
   margin: 40px auto 0 auto; }
 
-.pomodoro-counter_container {
+.sessions-counter_container {
   margin: 0 20px 20px 0; }
 
-.pomodoro-counter_container_title {
+.sessions-counter_container_title {
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   color: #E0FBFC;
@@ -103,7 +103,7 @@
   margin: 0 auto 10px auto;
   text-transform: uppercase; }
 
-.pomodoro-counter_container_value {
+.sessions-counter_container_value {
   font-family: "Montserrat", sans-serif;
   font-size: 35px;
   color: #E0FBFC;
@@ -139,7 +139,7 @@
     color: #E0FBFC;
     text-align: center; }
 
-  .clock {
+  .main {
     margin-top: 40px; }
 
   .settings_container {
@@ -160,7 +160,7 @@
     color: #E0FBFC;
     text-align: center; }
 
-  .clock_timer {
+  .main_timer {
     margin: 40px auto 0 auto;
     width: 350px;
     height: 350px; }

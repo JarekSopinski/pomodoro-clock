@@ -46,7 +46,7 @@ $light-font: 'Montserrat', sans-serif;
   @include text($bold-font, 50px)
 }
 
-.clock {
+.main {
   margin-top: 20px;
 }
 
@@ -153,7 +153,7 @@ $light-font: 'Montserrat', sans-serif;
     @include text($bold-font, 75px)
   }
 
-  .clock {
+  .main {
     margin-top: 40px;
   }
 
