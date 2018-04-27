@@ -3,12 +3,87 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
+    <title>Pomodoro Clock</title>
     <link rel="stylesheet" href="external/reset.css">
     <link rel="stylesheet" href="style/style.css">
 </head>
 
-<body>
+<body class="body">
+
+<header class="header">
+    <h1 class="header_title">Pomodoro Clock</h1>
+</header>
+
+<main class="clock">
+
+    <div class="clock_settings">
+
+        <!--SESSION SETTINGS-->
+        <div class="settings_container">
+            <span class="settings_container_title">Session length</span>
+            <br>
+            <button class="settings_container_btn">+</button>
+            <span class="settings_container_value">25</span>
+            <button class="settings_container_btn">-</button>
+        </div>
+
+        <!--SHORT BREAK SETTINGS-->
+        <div class="settings_container">
+            <span class="settings_container_title">Short break length</span>
+            <br>
+            <button class="settings_container_btn">+</button>
+            <span class="settings_container_value">5</span>
+            <button class="settings_container_btn">-</button>
+        </div>
+
+        <!--LONG BREAK SETTINGS-->
+        <div class="settings_container">
+            <span class="settings_container_title">Long break length</span>
+            <br>
+            <button class="settings_container_btn">+</button>
+            <span class="settings_container_value">15</span>
+            <button class="settings_container_btn">-</button>
+        </div>
+
+    </div>
+
+    <!--DISPLAYING TIME-->
+    <div class="clock_timer">
+        <span class="timer_status">Session</span>
+        <br>
+        <span class="timer_time-left">25:00</span>
+    </div>
+
+    <div class="clock_pomodoro-counter">
+
+        <!--COMPLETED POMODOROS-->
+        <div class="pomodoro-counter_container">
+            <span class="pomodoro-counter_container_title">Pomodoros completed today:</span>
+            <br>
+            <span class="pomodoro-counter_container_value">0</span>
+        </div>
+
+        <!--POMODOROS TO LONG BREAK-->
+        <div class="pomodoro-counter_container">
+            <span class="pomodoro-counter_container_title">Pomodoros left to long break:</span>
+            <br>
+            <span class="pomodoro-counter_container_value">4</span>
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="footer">
+
+    <span class="footer_text">Coded by</span>
+    <a class="footer_text--name"
+       href="https://jareksopinski.github.io"
+       target="_blank">
+        Jarek Sopinski
+    </a>
+
+</footer>
 
 <script src="external/jquery-3.3.1.min.js"></script>
 <script src="js/script.js"></script>
