@@ -48,10 +48,6 @@ const settingsChangeAbortedMsg = "You can't change length while the timer is run
 
 const setInitialState = () => state = $.extend(true, {}, initialState);
 
-const setSessionLength = action => action === "increment" ? state.sessionLength++ : state.sessionLength--;
-const setShortBreakLength = action => action === "increment" ? state.shortBreakLength++ : state.shortBreakLength--;
-const setLongBreakLength = action => action === "increment" ? state.longBreakLength++ : state.longBreakLength--;
-
 const changeSettings = (sessionOrBreak, action) => {
 
     if (state.isTimeRunning) { alert(settingsChangeAbortedMsg) }
@@ -76,6 +72,35 @@ const changeSettings = (sessionOrBreak, action) => {
         }
     }
 
+};
+
+const setSessionLength = action => {
+    action === "increment" ?
+        state.sessionLength ++
+        :
+        state.sessionLength --;
+
+    state.sessionLength === 0 && state.sessionLength ++;
+    state.sessionLength === 60 && state.sessionLength --
+};
+
+const setShortBreakLength = action => {
+    action === "increment" ?
+        state.shortBreakLength ++
+        :
+        state.shortBreakLength --;
+
+    state.shortBreakLength === 0 && state.shortBreakLength ++;
+    state.shortBreakLength === 60 && state.shortBreakLength --
+};
+const setLongBreakLength = action => {
+    action === "increment" ?
+        state.longBreakLength++
+        :
+        state.longBreakLength--;
+
+    state.longBreakLength === 0 && state.longBreakLength ++;
+    state.longBreakLength === 60 && state.longBreakLength --
 };
 
 const startOrStopTimer = () => {
