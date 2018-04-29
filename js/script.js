@@ -23,10 +23,20 @@ const $increaseLongBreakLengthBtn = $("#js-increase-long-break-btn");
 const $decreaseLongBreakLengthBtn = $("#js-decrease-long-break-btn");
 const $displayLongBreakLengthBtn = $("#js-display-long-break-length");
 
+const settingsChangeAbortedMsg = "You can't change length while the timer is running. Please, stop the timer first. Keep in mind that changing session's length will restart current session.";
+
+// variables keeping setIntervals, need to be declared outside so that startOrStopTimer() can access them:
+let subtractMinutes;
+let subtractSeconds;
+
+const maxSessionOrBreakLength = 60;
+const minSessionOrBreakLength = 0;
+
 let state = {};
 
 const initialState = {
-    isTimeRunning: false,
+    isTimerRunning: false,
+    isTimerPaused: false,
     status: "session",
     sessionLength: 25,
     shortBreakLength: 5,
@@ -35,22 +45,22 @@ const initialState = {
     sessionsLeftToLongBreak: 4
 };
 
+/*
+isTimerRunning and isTimerPaused are totally different things!
+isTimerPaused is false before user starts timer for the very first time, than it's true every time user stops the timer.
+It determines if startCounter() should be based on session's / breaks' length values or previous counter values.
+*/
+
 const counter = {
     minutes: 0,
     seconds: 0
 };
 
-// variables keeping setIntervals, need to be declared outside so that startOrStopTimer() can access them:
-let subtractMinutes;
-let subtractSeconds;
-
-const settingsChangeAbortedMsg = "You can't change length while the timer is running. Please, stop the timer first. Keep in mind that changing session's length will restart current session.";
-
 const setInitialState = () => state = $.extend(true, {}, initialState);
 
 const changeSettings = (sessionOrBreak, action) => {
 
-    if (state.isTimeRunning) { alert(settingsChangeAbortedMsg) }
+    if (state.isTimerRunning) { alert(settingsChangeAbortedMsg) }
 
     else {
         switch (sessionOrBreak) {
@@ -72,6 +82,8 @@ const changeSettings = (sessionOrBreak, action) => {
         }
     }
 
+    state.isTimerPaused = false
+
 };
 
 const setSessionLength = action => {
@@ -80,8 +92,8 @@ const setSessionLength = action => {
         :
         state.sessionLength --;
 
-    state.sessionLength === 0 && state.sessionLength ++;
-    state.sessionLength === 60 && state.sessionLength --
+    state.sessionLength === minSessionOrBreakLength && state.sessionLength ++;
+    state.sessionLength === maxSessionOrBreakLength && state.sessionLength --
 };
 
 const setShortBreakLength = action => {
@@ -90,8 +102,8 @@ const setShortBreakLength = action => {
         :
         state.shortBreakLength --;
 
-    state.shortBreakLength === 0 && state.shortBreakLength ++;
-    state.shortBreakLength === 60 && state.shortBreakLength --
+    state.shortBreakLength === minSessionOrBreakLength && state.shortBreakLength ++;
+    state.shortBreakLength === maxSessionOrBreakLength && state.shortBreakLength --
 };
 const setLongBreakLength = action => {
     action === "increment" ?
@@ -99,23 +111,23 @@ const setLongBreakLength = action => {
         :
         state.longBreakLength--;
 
-    state.longBreakLength === 0 && state.longBreakLength ++;
-    state.longBreakLength === 60 && state.longBreakLength --
+    state.longBreakLength === minSessionOrBreakLength && state.longBreakLength ++;
+    state.longBreakLength === maxSessionOrBreakLength && state.longBreakLength --
 };
 
-const startOrStopTimer = () => {
-
-    //TODO: Keep track of current time after pausing timer
-
-    switch (state.isTimeRunning) {
+const toggleTimer = () => {
+    
+    switch (state.isTimerRunning) {
         case true:
-            state.isTimeRunning = false;
+            state.isTimerRunning = false;
+            state.isTimerPaused = true;
             clearInterval(subtractMinutes);
             clearInterval(subtractSeconds);
             break;
         case false:
-            state.isTimeRunning = true;
-            startCounter(state.status)
+            state.isTimerRunning = true;
+            startCounter(state.status);
+            state.isTimerPaused = false; // has to be after startCounter, otherwise restarting from current time won't work!
     }
 
 
@@ -125,31 +137,32 @@ const startCounter = (sessionOrBreak) => {
 
     switch (sessionOrBreak) {
         case "session":
-            counter.minutes = state.sessionLength;
+            if (!state.isTimerPaused) { counter.minutes = state.sessionLength }
             subtractMinutesAndSeconds();
-            setTimeout(endSession, (state.sessionLength * 60) * 1000);
+            setTimeout(endSession, (counter.minutes * 60) * 1000);
             break;
         case "shortBreak":
-            counter.minutes = state.shortBreakLength;
+            if (!state.isTimerPaused) { counter.minutes = state.shortBreakLength }
             subtractMinutesAndSeconds();
             //setTimeout(endSession, (state.sessionLength * 60) * 1000);
             //TODO: change endSession above with another function
             break;
         case "longBreak":
-            counter.minutes = state.longBreakLength;
+            if (!state.isTimerPaused) { counter.minutes = state.longBreakLength }
             subtractMinutesAndSeconds();
             //setTimeout(endSession, (state.sessionLength * 60) * 1000);
             //TODO: change endSession above with another function
-            break;
     }
 
 };
 
 const subtractMinutesAndSeconds = () => {
 
-    counter.seconds = 60;
+    // After pause if over, seconds always restart with previous value.
+    // The only exception is initial launch, when they need to start from whole minute (60):
+    if (!state.isTimerPaused) { counter.seconds = 60 }
 
-    if (state.isTimeRunning) {
+    if (state.isTimerRunning) {
 
         subtractMinutes = setInterval(() => counter.minutes--, 60000); // runs every 60 000 milliseconds = one minute
 
@@ -210,7 +223,7 @@ $(document).ready(() => {
 
     setInitialState();
 
-    $timer.on("click", startOrStopTimer);
+    $timer.on("click", toggleTimer);
 
     $increaseSessionLengthBtn.on("click", () => changeSettings("session", "increment"));
     $decreaseSessionLengthBtn.on("click", () => changeSettings("session", "decrement"));
