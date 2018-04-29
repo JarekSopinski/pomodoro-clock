@@ -24,11 +24,6 @@ const $decreaseLongBreakLengthBtn = $("#js-decrease-long-break-btn");
 const $displayLongBreakLengthBtn = $("#js-display-long-break-length");
 
 const settingsChangeAbortedMsg = "You can't change length while the timer is running. Please, stop the timer first. Keep in mind that changing session's length will restart current session.";
-
-// variables keeping setIntervals, need to be declared outside so that startOrStopTimer() can access them:
-let subtractMinutes;
-let subtractSeconds;
-
 const maxSessionOrBreakLength = 60;
 const minSessionOrBreakLength = 0;
 
@@ -51,10 +46,8 @@ isTimerPaused is false before user starts timer for the very first time, than it
 It determines if startCounter() should be based on session's / breaks' length values or previous counter values.
 */
 
-const counter = {
-    minutes: 0,
-    seconds: 0
-};
+
+//******************************  SETTINGS ******************************
 
 const setInitialState = () => state = $.extend(true, {}, initialState);
 
@@ -115,12 +108,19 @@ const setLongBreakLength = action => {
     state.longBreakLength === maxSessionOrBreakLength && state.longBreakLength --
 };
 
+
+//****************************** COUNTING TIME ******************************
+
+const counter = {
+    minutes: 0,
+    seconds: 0
+};
+
 const toggleTimer = () => {
 
     switch (state.isTimerRunning) {
         case true:
-            clearInterval(subtractMinutes);
-            clearInterval(subtractSeconds);
+            stopCountingTime();
             state.isTimerRunning = false;
             state.isTimerPaused = true;
             break;
@@ -138,62 +138,72 @@ const startCounter = (sessionOrBreak) => {
     switch (sessionOrBreak) {
         case "session":
             if (!state.isTimerPaused) { counter.minutes = state.sessionLength }
-            subtractMinutesAndSeconds();
-            setTimeout(endSession, (counter.minutes * 60) * 100); //TODO: add 0 to end debugging
+            countTime();
+            setTimeout(endSession, (counter.minutes * 60) * 100); //TODO: add 0 when finished
             break;
         case "shortBreak":
             if (!state.isTimerPaused) { counter.minutes = state.shortBreakLength }
-            subtractMinutesAndSeconds();
-            setTimeout(endBreak, (counter.minutes * 60) * 100); //TODO: add 0 to end debugging
+            countTime();
+            setTimeout(endBreak, (counter.minutes * 60) * 100); //TODO: add 0 when finished
             break;
         case "longBreak":
             if (!state.isTimerPaused) { counter.minutes = state.longBreakLength }
-            subtractMinutesAndSeconds();
-            setTimeout(endBreak, (counter.minutes * 60) * 100); //TODO: add 0 to end debugging
+            countTime();
+            setTimeout(endBreak, (counter.minutes * 60) * 100); //TODO: add 0 when finished
     }
 
 };
 
-const subtractMinutesAndSeconds = () => {
+let minutesInterval;
+let secondsInterval;
+
+const countTime = () => {
 
     // After pause if over, seconds always restart with previous value.
     // The only exception is initial launch, when they need to start from whole minute (60):
     if (!state.isTimerPaused) { counter.seconds = 60 }
 
     if (state.isTimerRunning) {
-
-        subtractMinutes = setInterval(() => counter.minutes--, 6000); //TODO: add 0 to end debugging
-        // runs every 60 000 milliseconds = one minute
-
-        subtractSeconds = setInterval(() => {
-
-            counter.seconds--;
-
-            let displayedSeconds;
-            let displayedMinutes;
-
-            // if seconds is a one digit number, it has to be preceded by 0;
-            counter.seconds < 10 ?
-                displayedSeconds = `0${counter.seconds}`
-                :
-                displayedSeconds = counter.seconds;
-
-            // in case of minutes, it's replaced by 00 if 1 or also preceded by 0 (if 2-9)
-            if (counter.minutes === 1) {displayedMinutes = "00"}
-            else if (counter.minutes > 1 && counter.minutes < 10) {displayedMinutes = `0${counter.minutes - 1}`}
-            else {displayedMinutes = counter.minutes - 1}
-            // displayed minute (bigger than 1) always has to be subtracted by 1!
-
-            $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
-
-            if (counter.seconds === 0) {counter.seconds = 60} // minute reset after 60 seconds
-
-        }, 100); //TODO: add 0 to end debugging
-        // runs every one second
-
+        minutesInterval = setInterval(subtractMinutes, 6000); //TODO: add 0 when finished
+        secondsInterval = setInterval(subtractSeconds, 100) //TODO: add 0 when finished
     }
 
 };
+
+const stopCountingTime = () => {
+    clearInterval(minutesInterval);
+    clearInterval(secondsInterval)
+};
+
+const subtractMinutes = () => counter.minutes--;
+
+const subtractSeconds = () => {
+
+    counter.seconds--;
+
+    let displayedSeconds;
+    let displayedMinutes;
+
+    // if seconds is a one digit number, it has to be preceded by 0;
+    counter.seconds < 10 ?
+        displayedSeconds = `0${counter.seconds}`
+        :
+        displayedSeconds = counter.seconds;
+
+    // in case of minutes, it's replaced by 00 if 1 or also preceded by 0 (if 2-9)
+    if (counter.minutes === 1) {displayedMinutes = "00"}
+    else if (counter.minutes > 1 && counter.minutes < 10) {displayedMinutes = `0${counter.minutes - 1}`}
+    else {displayedMinutes = counter.minutes - 1}
+    // displayed minute (bigger than 1) always has to be subtracted by 1!
+
+    $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
+
+    if (counter.seconds === 0) {counter.seconds = 60} // minute reset after 60 seconds
+
+};
+
+
+//****************************** SESSION-BREAK LOOP ******************************
 
 const startSession = () => {
 
@@ -212,8 +222,7 @@ const startSession = () => {
 
 const endSession = () => {
 
-    clearInterval(subtractMinutes);
-    clearInterval(subtractSeconds);
+    stopCountingTime();
     $displayTimeLeft.text("00:00");
 
     state.sessionsCompleted ++;
@@ -246,13 +255,15 @@ const startBreak = () => {
 
 const endBreak = () => {
 
-    clearInterval(subtractMinutes);
-    clearInterval(subtractSeconds);
+    stopCountingTime();
     $displayTimeLeft.text("00:00");
     startSession()
 
 };
 
+
+
+//****************************** EVENT HANDLERS ******************************
 
 $(document).ready(() => {
 
