@@ -82,7 +82,7 @@ const changeSettings = (sessionOrBreak, action) => {
         }
     }
 
-    state.isTimerPaused = false
+    state.isTimerPaused = false // required, otherwise timer would start with paused time
 
 };
 
@@ -116,13 +116,13 @@ const setLongBreakLength = action => {
 };
 
 const toggleTimer = () => {
-    
+
     switch (state.isTimerRunning) {
         case true:
-            state.isTimerRunning = false;
-            state.isTimerPaused = true;
             clearInterval(subtractMinutes);
             clearInterval(subtractSeconds);
+            state.isTimerRunning = false;
+            state.isTimerPaused = true;
             break;
         case false:
             state.isTimerRunning = true;
@@ -139,19 +139,17 @@ const startCounter = (sessionOrBreak) => {
         case "session":
             if (!state.isTimerPaused) { counter.minutes = state.sessionLength }
             subtractMinutesAndSeconds();
-            setTimeout(endSession, (counter.minutes * 60) * 1000);
+            setTimeout(endSession, (counter.minutes * 60) * 100); //TODO: add 0 to end debugging
             break;
         case "shortBreak":
             if (!state.isTimerPaused) { counter.minutes = state.shortBreakLength }
             subtractMinutesAndSeconds();
-            //setTimeout(endSession, (state.sessionLength * 60) * 1000);
-            //TODO: change endSession above with another function
+            setTimeout(endBreak, (counter.minutes * 60) * 100); //TODO: add 0 to end debugging
             break;
         case "longBreak":
             if (!state.isTimerPaused) { counter.minutes = state.longBreakLength }
             subtractMinutesAndSeconds();
-            //setTimeout(endSession, (state.sessionLength * 60) * 1000);
-            //TODO: change endSession above with another function
+            setTimeout(endBreak, (counter.minutes * 60) * 100); //TODO: add 0 to end debugging
     }
 
 };
@@ -164,7 +162,8 @@ const subtractMinutesAndSeconds = () => {
 
     if (state.isTimerRunning) {
 
-        subtractMinutes = setInterval(() => counter.minutes--, 60000); // runs every 60 000 milliseconds = one minute
+        subtractMinutes = setInterval(() => counter.minutes--, 6000); //TODO: add 0 to end debugging
+        // runs every 60 000 milliseconds = one minute
 
         subtractSeconds = setInterval(() => {
 
@@ -189,9 +188,25 @@ const subtractMinutesAndSeconds = () => {
 
             if (counter.seconds === 0) {counter.seconds = 60} // minute reset after 60 seconds
 
-        }, 1000); // runs every one second
+        }, 100); //TODO: add 0 to end debugging
+        // runs every one second
 
     }
+
+};
+
+const startSession = () => {
+
+    const currentSessionNumber = state.sessionsCompleted + 1;
+
+    if (state.sessionsLeftToLongBreak === 0) {
+        state.sessionsLeftToLongBreak = 4;
+        $displaySessionsLeftToLongBreak.text(state.sessionsLeftToLongBreak);
+    }
+
+    state.status = "session";
+    $displayStatus.text(`Session #${currentSessionNumber}`);
+    startCounter(state.status)
 
 };
 
@@ -200,24 +215,44 @@ const endSession = () => {
     clearInterval(subtractMinutes);
     clearInterval(subtractSeconds);
     $displayTimeLeft.text("00:00");
-    // 3 lines above are temporary, until start break function is ready!
 
     state.sessionsCompleted ++;
     $displayCompletedSessions.text(state.sessionsCompleted);
     state.sessionsLeftToLongBreak --;
     $displaySessionsLeftToLongBreak.text(state.sessionsLeftToLongBreak);
 
-    if (state.sessionsLeftToLongBreak > 0) {
-        state.status = "shortBreak";
-        $displayStatus.text("Short break")
-        // startShortBreak()
-    } else {
-        state.status = "longBreak";
-        $displayStatus.text("Long break")
-        // startLongBreak()
+    startBreak()
+
+};
+
+const startBreak = () => {
+
+    let isLongBreak;
+    state.sessionsLeftToLongBreak === 0 ? isLongBreak = true : isLongBreak = false;
+
+    switch (isLongBreak) {
+        case true:
+            state.status = "longBreak";
+            $displayStatus.text("Long break");
+            startCounter(state.status);
+            break;
+        default:
+            state.status = "shortBreak";
+            $displayStatus.text("Short break");
+            startCounter(state.status)
     }
 
 };
+
+const endBreak = () => {
+
+    clearInterval(subtractMinutes);
+    clearInterval(subtractSeconds);
+    $displayTimeLeft.text("00:00");
+    startSession()
+
+};
+
 
 $(document).ready(() => {
 
