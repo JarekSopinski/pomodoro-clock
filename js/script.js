@@ -144,34 +144,45 @@ const initializeCounter = (sessionOrBreak) => {
     switch (sessionOrBreak) {
 
         case "session":
-
-            counter.secondsInCurrentSession = state.sessionLength * 60; // length of whole session according to settings
-
-            if (!state.isTimerPaused) {
-                // initialization of these values while initializing the timer.
-                // in case of pause, they have to keep old values.
-                counter.secondsInCurrentMinute = 60;
-                counter.secondsToSessionEnd = state.sessionLength * 60; // value used to restart after pause
-            }
-
+            calculateTime(state.sessionLength);
             secondsInterval = setInterval(subtractSeconds, 1000);
-
             !state.isTimerPaused ?
                 sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000)
                 :
                 sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 1000);
-
             break;
 
         case "shortBreak":
-            counter.secondsInCurrentSession = (state.shortBreakLength * 60) * 100;
-
-            shortBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000);
+            calculateTime(state.shortBreakLength);
+            secondsInterval = setInterval(subtractSeconds, 1000);
+            !state.isTimerPaused ?
+                sessionTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
+                :
+                sessionTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 1000);
             break;
-        case "longBreak":
-            counter.secondsInCurrentSession = (state.longBreakLength * 60) * 100;
 
-            longBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000);
+        case "longBreak":
+            calculateTime(state.longBreakLength);
+            secondsInterval = setInterval(subtractSeconds, 1000);
+            !state.isTimerPaused ?
+                sessionTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
+                :
+                sessionTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 1000);
+
+    }
+
+};
+
+const calculateTime = (initialLengthFromSettings) => {
+
+    counter.secondsInCurrentSession = initialLengthFromSettings * 60;
+    // length of whole session according to settings
+
+    if (!state.isTimerPaused) {
+        // initialization of these values while initializing the timer.
+        // in case of pause, they have to keep old values.
+        counter.secondsInCurrentMinute = 60;
+        counter.secondsToSessionEnd = initialLengthFromSettings * 60; // value used to restart after pause
     }
 
 };
