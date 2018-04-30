@@ -125,10 +125,16 @@ const counter = {
 
 const toggleTimer = () => {
 
-    if (!state.isTimerInitialized && !state.isTimerPaused) {
-        // before initialization
-        state.isTimerInitialized = true;
-        initializeCounter(state.status);
+    switch (state.isTimerInitialized) {
+        case true:
+            stopCountingTime();
+            state.isTimerInitialized = false;
+            state.isTimerPaused = true;
+            break;
+        case false:
+            state.isTimerInitialized = true;
+            initializeCounter(state.status);
+            state.isTimerPaused = false; // has to be after startCounter, otherwise restarting from current time won't work!
     }
 
 };
@@ -136,13 +142,27 @@ const toggleTimer = () => {
 const initializeCounter = (sessionOrBreak) => {
 
     switch (sessionOrBreak) {
+
         case "session":
-            counter.secondsInCurrentMinute = 60;
-            counter.secondsInCurrentSession = state.sessionLength * 60; // value used in setTimeout
-            counter.secondsToSessionEnd = state.sessionLength * 60; // value used to restart after pause
+
+            counter.secondsInCurrentSession = state.sessionLength * 60; // length of whole session according to settings
+
+            if (!state.isTimerPaused) {
+                // initialization of these values while initializing the timer.
+                // in case of pause, they have to keep old values.
+                counter.secondsInCurrentMinute = 60;
+                counter.secondsToSessionEnd = state.sessionLength * 60; // value used to restart after pause
+            }
+
             secondsInterval = setInterval(subtractSeconds, 1000);
-            sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000);
+
+            !state.isTimerPaused ?
+                sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000)
+                :
+                sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 1000);
+
             break;
+
         case "shortBreak":
             counter.secondsInCurrentSession = (state.shortBreakLength * 60) * 100;
 
