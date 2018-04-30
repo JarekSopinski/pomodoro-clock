@@ -143,31 +143,33 @@ const initializeCounter = (sessionOrBreak) => {
 
     switch (sessionOrBreak) {
 
+        //TODO: change every 100 to 1000 after debugging
+
         case "session":
             calculateTime(state.sessionLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(subtractSeconds, 100);
             !state.isTimerPaused ?
-                sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000)
+                sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 100)
                 :
-                sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 1000);
+                sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 100);
             break;
 
         case "shortBreak":
             calculateTime(state.shortBreakLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(subtractSeconds, 100);
             !state.isTimerPaused ?
-                sessionTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
+                sessionTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 100)
                 :
-                sessionTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 1000);
+                sessionTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 100);
             break;
 
         case "longBreak":
             calculateTime(state.longBreakLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(subtractSeconds, 100);
             !state.isTimerPaused ?
-                sessionTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
+                sessionTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 100)
                 :
-                sessionTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 1000);
+                sessionTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 100);
 
     }
 
@@ -194,7 +196,7 @@ const subtractSeconds = () => {
 
     counter.secondsToSessionEnd --; // if paused, will be restarted from this
     counter.secondsInCurrentMinute--;
-    counter.minutesToSessionEnd = (counter.secondsInCurrentSession / 60).toFixed(0);
+    counter.minutesToSessionEnd = Math.ceil(counter.secondsToSessionEnd / 60);
 
     // if seconds is a one digit number, it has to be preceded by 0;
     counter.secondsInCurrentMinute < 10 ?
