@@ -57,6 +57,7 @@ const changeSettings = (status, action) => {
     if (state.isTimerInitialized && !state.isTimerPaused) { alert(settingsChangeAbortedMsg) }
 
     else {
+
         switch (status) {
 
             case "session":
@@ -247,6 +248,16 @@ const subtractSeconds = () => {
     $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
 
     if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60} // seconds reset after one minute
+
+};
+
+const fillTimerWithColor = () => {
+
+  let color;
+  state.status === "session" ? color = "#9CEC5B" : color = "#FF9F1C";
+
+
+
 
 };
 

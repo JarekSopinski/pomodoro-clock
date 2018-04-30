@@ -50,7 +50,7 @@ $light-font: 'Montserrat', sans-serif;
   margin-top: 20px;
 }
 
-.clock_settings {
+.main_settings {
   @include flex-container
 }
 
@@ -82,23 +82,37 @@ $light-font: 'Montserrat', sans-serif;
   @include text($light-font, 25px);
 }
 
-.clock_timer {
-  @include flex-container;
-  align-items: center;
+.main_timer {
+  position: relative;
   margin: 20px auto 0 auto;
   width: 250px;
   height: 250px;
   border: 5px $light-cyan solid;
-  border-radius: 50px;
+}
+
+.timer_filler {
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+  background-color: $azure;
+  width: 100%;
+  height: 0;
 }
 
 .timer_status {
+  z-index: 2;
+  position: absolute;
+  top: 30%;
+  left: 28%;
   @include text($light-font, 20px);
   display: block;
-  margin-bottom: 10px;
 }
 
 .timer_time-left {
+  z-index: 2;
+  position: absolute;
+  top: 45%;
+  left: 28%;
   @include text($light-font, 45px);
   display: block;
   margin-bottom: 10px;
@@ -109,23 +123,23 @@ $light-font: 'Montserrat', sans-serif;
   color: $orange;
 }
 
-.clock_pomodoro-counter {
+.main_sessions-counter {
   @include flex-container;
   margin: 40px auto 0 auto;
 }
 
-.pomodoro-counter_container {
+.sessions-counter_container {
   margin: 0 20px 20px 0
 }
 
-.pomodoro-counter_container_title {
+.sessions-counter_container_title {
   @include text($light-font, 15px);
   display: block;
   margin: 0 auto 10px auto;
   text-transform: uppercase;
 }
 
-.pomodoro-counter_container_value {
+.sessions-counter_container_value {
   @include text($light-font, 35px);
   display: block;
   margin: auto;
@@ -170,7 +184,7 @@ $light-font: 'Montserrat', sans-serif;
     @include text($light-font, 35px);
   }
 
-  .clock_timer {
+  .main_timer {
     margin: 40px auto 0 auto;
     width: 350px;
     height: 350px;
