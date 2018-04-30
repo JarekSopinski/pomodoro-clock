@@ -30,7 +30,7 @@ const minSessionOrBreakLength = 0;
 let state = {};
 
 const initialState = {
-    isTimerRunning: false,
+    isTimerInitialized: false,
     isTimerPaused: false,
     status: "session",
     sessionLength: 25, //TODO: 25 after debug
@@ -53,7 +53,7 @@ const setInitialState = () => state = $.extend(true, {}, initialState);
 
 const changeSettings = (sessionOrBreak, action) => {
 
-    if (state.isTimerRunning) { alert(settingsChangeAbortedMsg) }
+    if (state.isTimerInitialized) { alert(settingsChangeAbortedMsg) }
 
     else {
         switch (sessionOrBreak) {
@@ -111,123 +111,80 @@ const setLongBreakLength = action => {
 
 //****************************** COUNTING TIME ******************************
 
-let minutesInterval;
 let secondsInterval;
 let sessionTimeout;
 let shortBreakTimeout;
 let longBreakTimeout;
 
 const counter = {
-    minutes: 0,
-    seconds: 0
+    minutesToSessionEnd: 0,
+    secondsToSessionEnd: 0,
+    secondsInCurrentSession: 0,
+    secondsInCurrentMinute: 0
 };
 
 const toggleTimer = () => {
 
-    // switch (state.isTimerRunning) {
-    //     case true:
-    //         stopCountingTime();
-    //         state.isTimerRunning = false;
-    //         state.isTimerPaused = true;
-    //         break;
-    //     case false:
-    //         state.isTimerRunning = true;
-    //         startCounter(state.status);
-    //         state.isTimerPaused = false; // has to be after startCounter, otherwise restarting from current time won't work!
-    // }
-
-    if (!state.isTimerRunning && !state.isTimerPaused) {
+    if (!state.isTimerInitialized && !state.isTimerPaused) {
         // before initialization
-        state.isTimerRunning = true;
-        counter.seconds = 60;
-        startCounter(state.status);
-    }
-
-    else if (state.isTimerRunning && !state.isTimerPaused) {
-        // is user wants to pause
-        stopCountingTime();
-        state.isTimerPaused = true
-    }
-
-    else if (state.isTimerRunning && state.isTimerPaused) {
-        // if user wants to restart after pausing
-        countTime();
-        state.isTimerPaused = false;
+        state.isTimerInitialized = true;
+        initializeCounter(state.status);
     }
 
 };
 
-const startCounter = (sessionOrBreak) => {
-
-    let timeLeft;
+const initializeCounter = (sessionOrBreak) => {
 
     switch (sessionOrBreak) {
         case "session":
-            counter.minutes = state.sessionLength;
-            timeLeft = calculateTimeLeft();
-            countTime();
-            sessionTimeout = setTimeout(endSession, timeLeft);
+            counter.secondsInCurrentMinute = 60;
+            counter.secondsInCurrentSession = state.sessionLength * 60; // value used in setTimeout
+            counter.secondsToSessionEnd = state.sessionLength * 60; // value used to restart after pause
+            secondsInterval = setInterval(subtractSeconds, 1000);
+            sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000);
             break;
         case "shortBreak":
-            counter.minutes = state.shortBreakLength;
-            timeLeft = calculateTimeLeft();
-            countTime();
-            shortBreakTimeout = setTimeout(endBreak, timeLeft);
+            counter.secondsInCurrentSession = (state.shortBreakLength * 60) * 100;
+
+            shortBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000);
             break;
         case "longBreak":
-            counter.minutes = state.longBreakLength;
-            timeLeft = calculateTimeLeft();
-            countTime();
-            longBreakTimeout = setTimeout(endBreak, timeLeft);
+            counter.secondsInCurrentSession = (state.longBreakLength * 60) * 100;
+
+            longBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000);
     }
 
 };
 
-const calculateTimeLeft = () => {
+const subtractSeconds = () => {
 
-    let timeLeft;
-    let initialLength;
+    let displayedSeconds;
+    let displayedMinutes;
 
-    switch (state.status) {
-        case "session":
-            initialLength = state.sessionLength;
-            break;
-        case "shortBreak":
-            initialLength = state.shortBreakLength;
-            break;
-        case "longBreak":
-            initialLength = state.longBreakLength
-    }
+    counter.secondsToSessionEnd --; // if paused, will be restarted from this
+    counter.secondsInCurrentMinute--;
+    counter.minutesToSessionEnd = (counter.secondsInCurrentSession / 60).toFixed(0);
 
-    console.log(`initial length: ${initialLength}`);
+    // if seconds is a one digit number, it has to be preceded by 0;
+    counter.secondsInCurrentMinute < 10 ?
+        displayedSeconds = `0${counter.secondsInCurrentMinute}`
+        :
+        displayedSeconds = counter.secondsInCurrentMinute;
 
-    // if (!state.isTimerPaused) { timeLeft = (initialLength * 60) * 100 } //TODO: add 0 when finished
-    // else if (state.isTimerPaused && counter.minutes === 1) { timeLeft = counter.seconds * 100} //TODO: add 0 when finished
-    // else { timeLeft = (counter.minutes * 60) * 100 } //TODO: add 0 when finished
+    // in case of minutes, it's replaced by 00 if 1 or also preceded by 0 (if 2-9)
+    if (counter.minutesToSessionEnd === 0) {displayedMinutes = "00"}
+    else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 10) {displayedMinutes = `0${ counter.minutesToSessionEnd - 1}`}
+    else {displayedMinutes = counter.minutesToSessionEnd - 1}
+    // displayed minute (bigger than 1) always has to be subtracted by 1!
 
-    timeLeft = (initialLength * 60) * 100; //TODO: add 0 when finished, 1000
-    console.log(`timeLeft: ${timeLeft}`);
-    return timeLeft
+    $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
 
-};
-
-
-const countTime = () => {
-
-    // After pause if over, seconds always restart with previous value.
-    // The only exception is initial launch, when they need to start from whole minute (60):
-    // if (!state.isTimerPaused) { counter.seconds = 60 }
-
-    if (state.isTimerRunning) {
-        minutesInterval = setInterval(subtractMinutes, 6000); //TODO: add 0 when finished, 60000
-        secondsInterval = setInterval(subtractSeconds, 100) //TODO: add 0 when finished, 1000
-    }
+    if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60} // seconds reset after one minute
 
 };
 
 const stopCountingTime = () => {
 
-    clearInterval(minutesInterval);
     clearInterval(secondsInterval);
 
     switch (state.status) {
@@ -243,32 +200,155 @@ const stopCountingTime = () => {
 
 };
 
-const subtractMinutes = () => counter.minutes--;
 
-const subtractSeconds = () => {
 
-    counter.seconds--;
-
-    let displayedSeconds;
-    let displayedMinutes;
-
-    // if seconds is a one digit number, it has to be preceded by 0;
-    counter.seconds < 10 ?
-        displayedSeconds = `0${counter.seconds}`
-        :
-        displayedSeconds = counter.seconds;
-
-    // in case of minutes, it's replaced by 00 if 1 or also preceded by 0 (if 2-9)
-    if (counter.minutes === 0) {displayedMinutes = "00"}
-    else if (counter.minutes > 0 && counter.minutes < 10) {displayedMinutes = `0${ counter.minutes - 1}`}
-    else {displayedMinutes = counter.minutes - 1}
-    // displayed minute (bigger than 1) always has to be subtracted by 1!
-
-    $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
-
-    if (counter.seconds === 0) {counter.seconds = 60} // minute reset after 60 seconds
-
-};
+// const toggleTimer = () => {
+//
+//     // switch (state.isTimerRunning) {
+//     //     case true:
+//     //         stopCountingTime();
+//     //         state.isTimerRunning = false;
+//     //         state.isTimerPaused = true;
+//     //         break;
+//     //     case false:
+//     //         state.isTimerRunning = true;
+//     //         startCounter(state.status);
+//     //         state.isTimerPaused = false; // has to be after startCounter, otherwise restarting from current time won't work!
+//     // }
+//
+//     if (!state.isTimerRunning && !state.isTimerPaused) {
+//         // before initialization
+//         state.isTimerRunning = true;
+//         counter.seconds = 60;
+//         startCounter(state.status);
+//     }
+//
+//     else if (state.isTimerRunning && !state.isTimerPaused) {
+//         // is user wants to pause
+//         stopCountingTime();
+//         state.isTimerPaused = true
+//     }
+//
+//     else if (state.isTimerRunning && state.isTimerPaused) {
+//         // if user wants to restart after pausing
+//         countTime();
+//         state.isTimerPaused = false;
+//     }
+//
+// };
+//
+// const startCounter = (sessionOrBreak) => {
+//
+//     let timeLeft;
+//
+//     switch (sessionOrBreak) {
+//         case "session":
+//             counter.minutes = state.sessionLength;
+//             timeLeft = calculateTimeLeft();
+//             countTime();
+//             sessionTimeout = setTimeout(endSession, timeLeft);
+//             break;
+//         case "shortBreak":
+//             counter.minutes = state.shortBreakLength;
+//             timeLeft = calculateTimeLeft();
+//             countTime();
+//             shortBreakTimeout = setTimeout(endBreak, timeLeft);
+//             break;
+//         case "longBreak":
+//             counter.minutes = state.longBreakLength;
+//             timeLeft = calculateTimeLeft();
+//             countTime();
+//             longBreakTimeout = setTimeout(endBreak, timeLeft);
+//     }
+//
+// };
+//
+// const calculateTimeLeft = () => {
+//
+//     let timeLeft;
+//     let initialLength;
+//
+//     switch (state.status) {
+//         case "session":
+//             initialLength = state.sessionLength;
+//             break;
+//         case "shortBreak":
+//             initialLength = state.shortBreakLength;
+//             break;
+//         case "longBreak":
+//             initialLength = state.longBreakLength
+//     }
+//
+//     console.log(`initial length: ${initialLength}`);
+//
+//     // if (!state.isTimerPaused) { timeLeft = (initialLength * 60) * 100 } //TODO: add 0 when finished
+//     // else if (state.isTimerPaused && counter.minutes === 1) { timeLeft = counter.seconds * 100} //TODO: add 0 when finished
+//     // else { timeLeft = (counter.minutes * 60) * 100 } //TODO: add 0 when finished
+//
+//     timeLeft = (initialLength * 60) * 100; //TODO: add 0 when finished, 1000
+//     console.log(`timeLeft: ${timeLeft}`);
+//     return timeLeft
+//
+// };
+//
+//
+// const countTime = () => {
+//
+//     // After pause if over, seconds always restart with previous value.
+//     // The only exception is initial launch, when they need to start from whole minute (60):
+//     // if (!state.isTimerPaused) { counter.seconds = 60 }
+//
+//     if (state.isTimerRunning) {
+//         minutesInterval = setInterval(subtractMinutes, 6000); //TODO: add 0 when finished, 60000
+//         secondsInterval = setInterval(subtractSeconds, 100) //TODO: add 0 when finished, 1000
+//     }
+//
+// };
+//
+// const stopCountingTime = () => {
+//
+//     clearInterval(minutesInterval);
+//     clearInterval(secondsInterval);
+//
+//     switch (state.status) {
+//         case "session":
+//             clearTimeout(sessionTimeout);
+//             break;
+//         case "shortBreak":
+//             clearTimeout(shortBreakTimeout);
+//             break;
+//         case "longBreak":
+//             clearTimeout(longBreakTimeout)
+//     }
+//
+// };
+//
+// const subtractMinutes = () => counter.minutes--;
+//
+// const subtractSeconds = () => {
+//
+//     counter.seconds--;
+//
+//     let displayedSeconds;
+//     let displayedMinutes;
+//
+//     // if seconds is a one digit number, it has to be preceded by 0;
+//     counter.seconds < 10 ?
+//         displayedSeconds = `0${counter.seconds}`
+//         :
+//         displayedSeconds = counter.seconds;
+//
+//     // in case of minutes, it's replaced by 00 if 1 or also preceded by 0 (if 2-9)
+//     if (counter.minutes === 0) {displayedMinutes = "00"}
+//     else if (counter.minutes > 0 && counter.minutes < 10) {displayedMinutes = `0${ counter.minutes - 1}`}
+//     else {displayedMinutes = counter.minutes - 1}
+//     // displayed minute (bigger than 1) always has to be subtracted by 1!
+//
+//     $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
+//
+//     if (counter.seconds === 0) {counter.seconds = 60} // minute reset after 60 seconds
+//
+// };
 
 
 //****************************** SESSION-BREAK LOOP ******************************
@@ -284,7 +364,7 @@ const startSession = () => {
 
     state.status = "session";
     $displayStatus.text(`Session #${currentSessionNumber}`);
-    startCounter(state.status)
+    initializeCounter(state.status)
 
 };
 
@@ -311,12 +391,12 @@ const startBreak = () => {
         case true:
             state.status = "longBreak";
             $displayStatus.text("Long break");
-            startCounter(state.status);
+            initializeCounter(state.status);
             break;
         default:
             state.status = "shortBreak";
             $displayStatus.text("Short break");
-            startCounter(state.status)
+            initializeCounter(state.status)
     }
 
 };
