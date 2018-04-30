@@ -2,6 +2,7 @@
 TODO:
 1) Help pop-up
 2) Reset button?
+3) Fill rate: secondsToSessionEnd - secondsInCurrentSession
  */
 
 const $timer = $("#js-timer");
@@ -51,31 +52,35 @@ It determines if startCounter() should be based on session's / breaks' length va
 
 const setInitialState = () => state = $.extend(true, {}, initialState);
 
-const changeSettings = (sessionOrBreak, action) => {
+const changeSettings = (status, action) => {
 
-    if (state.isTimerInitialized) { alert(settingsChangeAbortedMsg) }
+    if (state.isTimerInitialized && !state.isTimerPaused) { alert(settingsChangeAbortedMsg) }
 
     else {
-        switch (sessionOrBreak) {
+        switch (status) {
+
             case "session":
                 setSessionLength(action);
                 $displaySessionLength.text(state.sessionLength);
-                state.sessionLength < 10?
-                    $displayTimeLeft.text(`0${state.sessionLength}:00`)
-                    :
-                    $displayTimeLeft.text(`${state.sessionLength}:00`);
+                displayNewLengthInsideTimer(status, state.sessionLength);
+                resetCounterAfterChangingSettings(status, state.sessionLength);
                 break;
+
             case "shortBreak":
                 setShortBreakLength(action);
                 $displayShortBreakLength.text(state.shortBreakLength);
+                displayNewLengthInsideTimer(status, state.shortBreakLength);
+                resetCounterAfterChangingSettings(status, state.shortBreakLength);
                 break;
+
             case "longBreak":
                 setLongBreakLength(action);
-                $displayLongBreakLengthBtn.text(state.longBreakLength)
+                $displayLongBreakLengthBtn.text(state.longBreakLength);
+                displayNewLengthInsideTimer(status, state.longBreakLength);
+                resetCounterAfterChangingSettings(status, state.longBreakLength)
         }
-    }
 
-    state.isTimerPaused = false // required, otherwise timer would start with paused time
+    }
 
 };
 
@@ -98,6 +103,7 @@ const setShortBreakLength = action => {
     state.shortBreakLength === minSessionOrBreakLength && state.shortBreakLength ++;
     state.shortBreakLength === maxSessionOrBreakLength && state.shortBreakLength --
 };
+
 const setLongBreakLength = action => {
     action === "increment" ?
         state.longBreakLength++
@@ -106,6 +112,34 @@ const setLongBreakLength = action => {
 
     state.longBreakLength === minSessionOrBreakLength && state.longBreakLength ++;
     state.longBreakLength === maxSessionOrBreakLength && state.longBreakLength --
+};
+
+const resetCounterAfterChangingSettings = (status, newLength) => {
+
+    if (status === state.status) {
+        // important! - otherwise changing different settings would cause conflicts between them
+
+        counter.secondsInCurrentSession = newLength * 60;
+        counter.secondsToSessionEnd = newLength * 60;
+        counter.minutesToSessionEnd = newLength;
+        counter.secondsInCurrentMinute = 60
+
+    }
+
+};
+
+const displayNewLengthInsideTimer = (status, newLength) => {
+
+    if (status === state.status) {
+        // else newLength will be displayed only in settings, not inside timer
+
+        newLength < 10?
+            $displayTimeLeft.text(`0${newLength}:00`)
+            :
+            $displayTimeLeft.text(`${newLength}:00`);
+
+    }
+
 };
 
 
