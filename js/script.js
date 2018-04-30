@@ -6,6 +6,7 @@ TODO:
  */
 
 const $timer = $("#js-timer");
+const $timerFiller = $("#js-timer_filler");
 const $displayStatus = $("#js-display-status");
 const $displayTimeLeft = $("#js-display-time-left");
 
@@ -249,16 +250,24 @@ const subtractSeconds = () => {
 
     if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60} // seconds reset after one minute
 
+    fillTimerWithColor();
+
 };
 
 const fillTimerWithColor = () => {
 
-  let color;
-  state.status === "session" ? color = "#9CEC5B" : color = "#FF9F1C";
+    const difference = counter.secondsInCurrentSession - counter.secondsToSessionEnd;
+    const fillHeightPercentage = ((difference / counter.secondsInCurrentSession) * 100).toFixed(0);
 
+    const sessionRed = "#D90429";
+    const breakGreen = "#248232";
+    let bgColor;
+    state.status === "session" ? bgColor = sessionRed : bgColor = breakGreen;
 
-
-
+    $timerFiller.css({
+        "background-color": bgColor,
+        "height": fillHeightPercentage + "%"
+    })
 };
 
 const stopCountingTime = () => {

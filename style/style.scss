@@ -8,6 +8,8 @@ $bright-yellow: #FF9F1C;
 $azure: #3A86FF;
 $orange: #FB5607;
 $light-green: #9CEC5B;
+$red: #D90429;
+$dark-green: #248232;
 
 // FONTS
 
@@ -94,7 +96,6 @@ $light-font: 'Montserrat', sans-serif;
   z-index: 1;
   position: absolute;
   bottom: 0;
-  background-color: $azure;
   width: 100%;
   height: 0;
 }
