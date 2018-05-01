@@ -25,7 +25,7 @@
             <br>
             <div class="settings_container_controls">
                 <button id="js-increase-session-btn" class="controls_btn">+</button>
-                <span id="js-display-session-length" class="controls_value">25</span>
+                <span id="js-display-session-length" class="controls_value"></span>
                 <button id="js-decrease-session-btn" class="controls_btn">-</button>
             </div>
         </div>
@@ -36,7 +36,7 @@
             <br>
             <div class="settings_container_controls">
                 <button id="js-increase-short-break-btn" class="controls_btn">+</button>
-                <span id="js-display-short-break-length" class="controls_value">5</span>
+                <span id="js-display-short-break-length" class="controls_value"></span>
                 <button id="js-decrease-short-break-btn" class="controls_btn">-</button>
             </div>
         </div>
@@ -47,7 +47,7 @@
             <br>
             <div class="settings_container_controls">
                 <button id="js-increase-long-break-btn" class="controls_btn">+</button>
-                <span id="js-display-long-break-length" class="controls_value">15</span>
+                <span id="js-display-long-break-length" class="controls_value"></span>
                 <button id="js-decrease-long-break-btn" class="controls_btn">-</button>
             </div>
         </div>
@@ -57,14 +57,14 @@
     <!--DISPLAYING TIME-->
     <div id="js-timer" class="main_timer">
         <div id="js-timer_filler" class="timer_filler"></div>
-        <span id="js-display-status" class="timer_status">Session #1</span>
-        <span id="js-display-time-left" class="timer_time-left">25:00</span>
+        <span id="js-display-status" class="timer_status"></span>
+        <span id="js-display-time-left" class="timer_time-left"></span>
     </div>
 
     <div class="main_additional-buttons">
 
         <!--RESET BUTTON-->
-        <div class="additional-buttons_container">
+        <div id="js-reset-btn" class="additional-buttons_container">
             <span class="additional-buttons_container_text">Reset</span>
         </div>
 
@@ -103,13 +103,13 @@
         <!--COMPLETED SESSIONS-->
         <div class="sessions-counter_container">
             <span class="sessions-counter_container_title">Sessions<br>completed today</span>
-            <span id="js-display-completed" class="sessions-counter_container_value">0</span>
+            <span id="js-display-completed" class="sessions-counter_container_value"></span>
         </div>
 
         <!--SESSIONS TO LONG BREAK-->
         <div class="sessions-counter_container">
             <span class="sessions-counter_container_title">Sessions<br>to long break</span>
-            <span id="js-display-left-to-long-break" class="sessions-counter_container_value">4</span>
+            <span id="js-display-left-to-long-break" class="sessions-counter_container_value"></span>
         </div>
 
     </div>

@@ -29,6 +29,8 @@ const $increaseLongBreakLengthBtn = $("#js-increase-long-break-btn");
 const $decreaseLongBreakLengthBtn = $("#js-decrease-long-break-btn");
 const $displayLongBreakLengthBtn = $("#js-display-long-break-length");
 
+const $resetBtn = $("#js-reset-btn");
+
 const settingsChangeAbortedMsg = "You can't change length while the timer is running. Please, stop the timer first. Keep in mind that changing session's length will restart current session.";
 const maxSessionOrBreakLength = 60;
 const minSessionOrBreakLength = 0;
@@ -55,7 +57,40 @@ It determines if startCounter() should be based on session's / breaks' length va
 
 //******************************  SETTINGS ******************************
 
-const setInitialState = () => state = $.extend(true, {}, initialState);
+const setInitialState = (type) => {
+
+    switch (type) {
+        case "initialization":
+            state = $.extend(true, {}, initialState);
+            displayInitialValues();
+            break;
+        case "reset":
+            stopCountingTime();
+            $timerFiller.css({"height": "0"});
+            const sessionsCompleted = state.sessionsCompleted; // saving value of comp. ses. before resetting
+            state = $.extend(true, {}, initialState);
+            state.sessionsCompleted = sessionsCompleted;
+            displayInitialValues()
+    }
+
+};
+
+const displayInitialValues = () => {
+
+    $displaySessionLength.text(state.sessionLength);
+    $displayShortBreakLength.text(state.shortBreakLength);
+    $displayLongBreakLengthBtn.text(state.longBreakLength);
+
+    $displayStatus.text("Session #1");
+    state.sessionLength < 10?
+        $displayTimeLeft.text(`0${state.sessionLength}:00`)
+        :
+        $displayTimeLeft.text(`${state.sessionLength}:00`);
+
+    $displayCompletedSessions.text(state.sessionsCompleted);
+    $displaySessionsLeftToLongBreak.text(state.sessionsLeftToLongBreak);
+
+};
 
 const changeSettings = (status, action) => {
 
@@ -356,7 +391,7 @@ const endBreak = () => {
 
 $(document).ready(() => {
 
-    setInitialState();
+    setInitialState("initialization");
 
     $timer.on("click", toggleTimer);
 
@@ -369,5 +404,7 @@ $(document).ready(() => {
 
     $showHelpPopupBtn.on("click", () => $helpPopUp.removeClass("hidden-item"));
     $closeHelpPopupBtn.on("click", () => $helpPopUp.addClass("hidden-item"));
+
+    $resetBtn.on("click", () => setInitialState("reset"))
 
 });
