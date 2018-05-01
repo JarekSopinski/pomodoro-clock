@@ -34,7 +34,7 @@ $light-font: 'Montserrat', sans-serif;
 }
 
 .hidden-item {
-  display: none !important;
+  display: none;
 };
 
 .body {
@@ -206,7 +206,7 @@ $light-font: 'Montserrat', sans-serif;
 
 .footer {
   @include flex-container;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 .footer_text {

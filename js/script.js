@@ -189,7 +189,7 @@ const toggleTimer = () => {
             state.isTimerRunning = false;
             break;
         case false:
-            initializeCounter(state.status);
+            startCountingTime(state.status);
             state.isTimerRunning = true;
     }
 
@@ -197,7 +197,7 @@ const toggleTimer = () => {
 
 };
 
-const initializeCounter = (sessionOrBreak) => {
+const startCountingTime = (sessionOrBreak) => {
 
     switch (sessionOrBreak) {
 
@@ -317,7 +317,7 @@ const startSession = () => {
 
     state.status = "session";
     $displayStatus.text(`Session #${currentSessionNumber}`);
-    initializeCounter(state.status)
+    startCountingTime(state.status)
 
 };
 
@@ -346,12 +346,12 @@ const startBreak = () => {
         case true:
             state.status = "longBreak";
             $displayStatus.text("Long break");
-            initializeCounter(state.status);
+            startCountingTime(state.status);
             break;
         default:
             state.status = "shortBreak";
             $displayStatus.text("Short break");
-            initializeCounter(state.status)
+            startCountingTime(state.status)
     }
 
 };
