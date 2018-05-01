@@ -53,7 +53,6 @@ const counter = {
     secondsInCurrentMinute: 0
 };
 
-
 //******************************  SETTINGS ******************************
 
 const setInitialState = (type) => {
@@ -157,7 +156,6 @@ const setLongBreakLength = action => {
 const resetCounterAfterChangingSettings = (status, newLength) => {
 
     if (status === state.status) {
-        // important! - otherwise changing different settings would cause conflicts between them
 
         counter.secondsInCurrentSession = newLength * 60;
         counter.secondsToSessionEnd = newLength * 60;
@@ -171,7 +169,6 @@ const resetCounterAfterChangingSettings = (status, newLength) => {
 const displayNewLengthInsideTimer = (status, newLength) => {
 
     if (status === state.status) {
-        // else newLength will be displayed only in settings, not inside timer
 
         newLength < 10?
             $displayTimeLeft.text(`0${newLength}:00`)
@@ -182,10 +179,7 @@ const displayNewLengthInsideTimer = (status, newLength) => {
 
 };
 
-
 //****************************** COUNTING TIME ******************************
-
-
 
 const toggleTimer = () => {
 
@@ -196,7 +190,7 @@ const toggleTimer = () => {
             break;
         case false:
             initializeCounter(state.status);
-            state.isTimerRunning = true; // has to be after startCounter, otherwise restarting from current time won't work!
+            state.isTimerRunning = true;
     }
 
     if (!state.isTimerInitialized) { state.isTimerInitialized = true }
@@ -207,14 +201,10 @@ const initializeCounter = (sessionOrBreak) => {
 
     switch (sessionOrBreak) {
 
-        // subtract one zero from each 1000 in this function to speed up time ten times (debugging mode)
-
         case "session":
             calculateTime(state.sessionLength);
             secondsInterval = setInterval(subtractSeconds, 1000);
             !state.isTimerInitialized ?
-                //!state.isTimerInitialized - start of session, values are taken from settings
-                // state.isTimerInitialized - ending pause during session, values are based on time left
                 sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000)
                 :
                 sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 1000);
@@ -244,13 +234,10 @@ const initializeCounter = (sessionOrBreak) => {
 const calculateTime = (initialLengthFromSettings) => {
 
     counter.secondsInCurrentSession = initialLengthFromSettings * 60;
-    // length of whole session according to settings
 
     if (!state.isTimerInitialized) {
-        // initialization of these values while initializing the timer.
-        // in case of pause, they have to keep old values.
         counter.secondsInCurrentMinute = 60;
-        counter.secondsToSessionEnd = initialLengthFromSettings * 60; // value used to restart after pause
+        counter.secondsToSessionEnd = initialLengthFromSettings * 60;
     }
 
 };
@@ -260,25 +247,22 @@ const subtractSeconds = () => {
     let displayedSeconds;
     let displayedMinutes;
 
-    counter.secondsToSessionEnd --; // if paused, will be restarted from this
+    counter.secondsToSessionEnd --;
     counter.secondsInCurrentMinute--;
     counter.minutesToSessionEnd = Math.ceil(counter.secondsToSessionEnd / 60);
 
-    // if seconds is a one digit number, it has to be preceded by 0;
     counter.secondsInCurrentMinute < 10 ?
         displayedSeconds = `0${counter.secondsInCurrentMinute}`
         :
         displayedSeconds = counter.secondsInCurrentMinute;
 
-    // in case of minutes, it's replaced by 00 if 1 or also preceded by 0 (if 2-9)
     if (counter.minutesToSessionEnd === 0) {displayedMinutes = "00"}
     else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 11) {displayedMinutes = `0${ counter.minutesToSessionEnd - 1}`}
     else {displayedMinutes = counter.minutesToSessionEnd - 1}
-    // displayed minute (bigger than 1) always has to be subtracted by 1!
 
     $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
 
-    if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60} // seconds reset after one minute
+    if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60}
 
     fillTimerWithColor();
 
@@ -379,8 +363,6 @@ const endBreak = () => {
     startSession()
 
 };
-
-
 
 //****************************** EVENT HANDLERS ******************************
 
