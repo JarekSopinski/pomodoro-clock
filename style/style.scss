@@ -131,22 +131,52 @@ $light-font: 'Montserrat', sans-serif;
 
 .additional-buttons_container {
   @include flex-container;
+  position: relative;
   align-items: center;
   margin: 0 20px;
   height: 50px;
   width: 100px;
-  border: 5px solid $light-cyan;
+  border: 2px solid $light-cyan;
   cursor: pointer;
-  transition: background-color, 1s;
-}
-
-.additional-buttons_container:hover {
-  background-color: $orange;
 }
 
 .additional-buttons_container_text {
   @include text($light-font, 15px);
   text-transform: uppercase;
+}
+
+.additional-buttons_container_text:hover {
+  color: $orange;
+}
+
+.additional-buttons_container_help-popup {
+  z-index: 3;
+  position: absolute;
+  bottom: -50px;
+  right: -20px;
+  min-width: 250px;
+  padding: 20px;
+  background-color: $azure;
+  opacity: 0.95;
+  border: 2px solid $light-cyan;
+  cursor: auto;
+}
+
+.help-popup_text {
+  @include text($light-font, 15px);
+}
+
+.help-popup_close-btn {
+  @include text($light-font, 15px);
+  margin-top: 30px;
+  padding: 5px;
+  border: 2px solid $light-cyan;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.help-popup_close-btn:hover {
+  color: $orange;
 }
 
 .main_sessions-counter {
@@ -224,6 +254,13 @@ $light-font: 'Montserrat', sans-serif;
 
   .timer_time-left {
     @include text($light-font, 60px);
+  }
+
+  .additional-buttons_container_help-popup {
+    bottom: 60px;
+    right: -130px;
+    min-width: 400px;
+    padding: 50px;
   }
 
 }

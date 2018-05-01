@@ -105,16 +105,13 @@
   display: flex;
   flex-flow: wrap;
   justify-content: center;
+  position: relative;
   align-items: center;
   margin: 0 20px;
   height: 50px;
   width: 100px;
-  border: 5px solid #E0FBFC;
-  cursor: pointer;
-  transition: background-color, 1s; }
-
-.additional-buttons_container:hover {
-  background-color: #FB5607; }
+  border: 2px solid #E0FBFC;
+  cursor: pointer; }
 
 .additional-buttons_container_text {
   font-family: "Montserrat", sans-serif;
@@ -122,6 +119,41 @@
   color: #E0FBFC;
   text-align: center;
   text-transform: uppercase; }
+
+.additional-buttons_container_text:hover {
+  color: #FB5607; }
+
+.additional-buttons_container_help-popup {
+  z-index: 3;
+  position: absolute;
+  bottom: -50px;
+  right: -20px;
+  min-width: 250px;
+  padding: 20px;
+  background-color: #3A86FF;
+  opacity: 0.95;
+  border: 2px solid #E0FBFC;
+  cursor: auto; }
+
+.help-popup_text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #E0FBFC;
+  text-align: center; }
+
+.help-popup_close-btn {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #E0FBFC;
+  text-align: center;
+  margin-top: 30px;
+  padding: 5px;
+  border: 2px solid #E0FBFC;
+  text-transform: uppercase;
+  cursor: pointer; }
+
+.help-popup_close-btn:hover {
+  color: #FB5607; }
 
 .main_sessions-counter {
   display: flex;
@@ -215,6 +247,12 @@
     font-family: "Montserrat", sans-serif;
     font-size: 60px;
     color: #E0FBFC;
-    text-align: center; } }
+    text-align: center; }
+
+  .additional-buttons_container_help-popup {
+    bottom: 60px;
+    right: -130px;
+    min-width: 400px;
+    padding: 50px; } }
 
 /*# sourceMappingURL=style.css.map */
