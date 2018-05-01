@@ -35,6 +35,10 @@ $light-font: 'Montserrat', sans-serif;
   cursor: pointer;
 }
 
+.hidden-item {
+  display: none !important;
+};
+
 .body {
   background-color: $dark-blue;
 }

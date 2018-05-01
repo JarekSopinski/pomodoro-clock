@@ -10,6 +10,10 @@ const $timerFiller = $("#js-timer_filler");
 const $displayStatus = $("#js-display-status");
 const $displayTimeLeft = $("#js-display-time-left");
 
+const $helpPopUp = $("#js-help-popup");
+const $showHelpPopupBtn = $("#js-help-btn");
+const $closeHelpPopupBtn = $("#js-help-popup_close-btn");
+
 const $displayCompletedSessions = $("#js-display-completed");
 const $displaySessionsLeftToLongBreak = $("#js-display-left-to-long-break");
 
@@ -361,6 +365,9 @@ $(document).ready(() => {
     $increaseShortBreakLengthBtn.on("click", () => changeSettings("shortBreak", "increment"));
     $decreaseShortBreakLengthBtn.on("click", () => changeSettings("shortBreak", "decrement"));
     $increaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "increment"));
-    $decreaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "decrement"))
+    $decreaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "decrement"));
+
+    $showHelpPopupBtn.on("click", () => $helpPopUp.removeClass("hidden-item"));
+    $closeHelpPopupBtn.on("click", () => $helpPopUp.addClass("hidden-item"));
 
 });

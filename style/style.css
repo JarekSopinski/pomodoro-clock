@@ -1,3 +1,6 @@
+.hidden-item {
+  display: none !important; }
+
 .body {
   background-color: #011627; }
 
