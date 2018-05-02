@@ -65,7 +65,7 @@ const setInitialState = (type) => {
         case "reset":
             stopCountingTime();
             $timerFiller.css({"height": "0"});
-            const sessionsCompleted = state.sessionsCompleted; // saving value of comp. ses. before resetting
+            const sessionsCompleted = state.sessionsCompleted;
             state = $.extend(true, {}, initialState);
             state.sessionsCompleted = sessionsCompleted;
             displayInitialValues()
@@ -203,7 +203,7 @@ const startCountingTime = (sessionOrBreak) => {
 
         case "session":
             calculateTime(state.sessionLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(updateTimer, 1000);
             !state.isTimerInitialized ?
                 sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000)
                 :
@@ -212,7 +212,7 @@ const startCountingTime = (sessionOrBreak) => {
 
         case "shortBreak":
             calculateTime(state.shortBreakLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(updateTimer, 1000);
             !state.isTimerInitialized ?
                 shortBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
                 :
@@ -221,7 +221,7 @@ const startCountingTime = (sessionOrBreak) => {
 
         case "longBreak":
             calculateTime(state.longBreakLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(updateTimer, 1000);
             !state.isTimerInitialized ?
                 longBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
                 :
@@ -242,7 +242,7 @@ const calculateTime = (initialLengthFromSettings) => {
 
 };
 
-const subtractSeconds = () => {
+const updateTimer = () => {
 
     let displayedSeconds;
     let displayedMinutes;
@@ -251,20 +251,49 @@ const subtractSeconds = () => {
     counter.secondsInCurrentMinute--;
     counter.minutesToSessionEnd = Math.ceil(counter.secondsToSessionEnd / 60);
 
-    counter.secondsInCurrentMinute < 10 ?
-        displayedSeconds = `0${counter.secondsInCurrentMinute}`
-        :
+    if (counter.secondsInCurrentMinute >= 10) {
+
         displayedSeconds = counter.secondsInCurrentMinute;
+        displayedMinutes = handleDisplayingMinutes();
+        $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`)
 
-    if (counter.minutesToSessionEnd === 0) {displayedMinutes = "00"}
-    else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 11) {displayedMinutes = `0${ counter.minutesToSessionEnd - 1}`}
-    else {displayedMinutes = counter.minutesToSessionEnd - 1}
+    }
 
-    $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
+    else if (counter.secondsInCurrentMinute > 0 && counter.secondsInCurrentMinute < 10) {
 
-    if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60}
+        displayedSeconds = `0${counter.secondsInCurrentMinute}`;
+        displayedMinutes = handleDisplayingMinutes();
+        $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`)
+
+    }
+
+    else {
+
+        displayedMinutes = handleDisplayingMinutes();
+        $displayTimeLeft.text(`${displayedMinutes}:00`);
+        counter.secondsInCurrentMinute = 60
+
+    }
 
     fillTimerWithColor();
+
+};
+
+const handleDisplayingMinutes = () => {
+
+    let displayedMinutes;
+
+    if (counter.minutesToSessionEnd === 0) { displayedMinutes = "00" }
+    else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 10 && counter.secondsInCurrentMinute !== 0) {
+        displayedMinutes = `0${ counter.minutesToSessionEnd - 1}`
+    }
+    else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 10 && counter.secondsInCurrentMinute === 0) {
+        displayedMinutes = `0${ counter.minutesToSessionEnd }`
+    }
+    else if (counter.secondsInCurrentMinute !== 0) { displayedMinutes = counter.minutesToSessionEnd - 1 }
+    else { displayedMinutes = counter.minutesToSessionEnd }
+
+    return displayedMinutes
 
 };
 
@@ -379,8 +408,8 @@ $(document).ready(() => {
     $increaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "increment"));
     $decreaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "decrement"));
 
-    $showHelpPopupBtn.on("click", () => $helpPopUp.removeClass("hidden-item"));
-    $closeHelpPopupBtn.on("click", () => $helpPopUp.addClass("hidden-item"));
+    $showHelpPopupBtn.on("click", () => $helpPopUp.toggleClass("hidden-item"));
+    $closeHelpPopupBtn.on( "click", (event) => { event.stopPropagation(); $helpPopUp.toggleClass("hidden-item")} );
 
     $resetBtn.on("click", () => setInitialState("reset"))
 

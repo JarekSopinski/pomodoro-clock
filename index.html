@@ -17,43 +17,6 @@
 
 <main class="main">
 
-    <div class="main_settings">
-
-        <!--SESSION SETTINGS-->
-        <div class="settings_container">
-            <span class="settings_container_title">Session length</span>
-            <br>
-            <div class="settings_container_controls">
-                <button id="js-increase-session-btn" class="controls_btn">+</button>
-                <span id="js-display-session-length" class="controls_value"></span>
-                <button id="js-decrease-session-btn" class="controls_btn">-</button>
-            </div>
-        </div>
-
-        <!--SHORT BREAK SETTINGS-->
-        <div class="settings_container">
-            <span class="settings_container_title">Short break</span>
-            <br>
-            <div class="settings_container_controls">
-                <button id="js-increase-short-break-btn" class="controls_btn">+</button>
-                <span id="js-display-short-break-length" class="controls_value"></span>
-                <button id="js-decrease-short-break-btn" class="controls_btn">-</button>
-            </div>
-        </div>
-
-        <!--LONG BREAK SETTINGS-->
-        <div class="settings_container">
-            <span class="settings_container_title">Long break</span>
-            <br>
-            <div class="settings_container_controls">
-                <button id="js-increase-long-break-btn" class="controls_btn">+</button>
-                <span id="js-display-long-break-length" class="controls_value"></span>
-                <button id="js-decrease-long-break-btn" class="controls_btn">-</button>
-            </div>
-        </div>
-
-    </div>
-
     <!--DISPLAYING TIME-->
     <div id="js-timer" class="main_timer">
         <div id="js-timer_filler" class="timer_filler"></div>
@@ -69,8 +32,8 @@
         </div>
 
         <!--HELP BUTTON-->
-        <div class="additional-buttons_container">
-            <span id="js-help-btn" class="additional-buttons_container_text">Help</span>
+        <div id="js-help-btn" class="additional-buttons_container">
+            <span class="additional-buttons_container_text">Help</span>
 
             <!--HELP POPUP-->
             <div id="js-help-popup" class="additional-buttons_container_help-popup hidden-item">
@@ -110,6 +73,43 @@
         <div class="sessions-counter_container">
             <span class="sessions-counter_container_title">Sessions<br>to long break</span>
             <span id="js-display-left-to-long-break" class="sessions-counter_container_value"></span>
+        </div>
+
+    </div>
+
+    <div class="main_settings">
+
+        <!--SESSION SETTINGS-->
+        <div class="settings_container">
+            <span class="settings_container_title">Session length</span>
+            <br>
+            <div class="settings_container_controls">
+                <button id="js-increase-session-btn" class="controls_btn">+</button>
+                <span id="js-display-session-length" class="controls_value"></span>
+                <button id="js-decrease-session-btn" class="controls_btn">-</button>
+            </div>
+        </div>
+
+        <!--SHORT BREAK SETTINGS-->
+        <div class="settings_container">
+            <span class="settings_container_title">Short break</span>
+            <br>
+            <div class="settings_container_controls">
+                <button id="js-increase-short-break-btn" class="controls_btn">+</button>
+                <span id="js-display-short-break-length" class="controls_value"></span>
+                <button id="js-decrease-short-break-btn" class="controls_btn">-</button>
+            </div>
+        </div>
+
+        <!--LONG BREAK SETTINGS-->
+        <div class="settings_container">
+            <span class="settings_container_title">Long break</span>
+            <br>
+            <div class="settings_container_controls">
+                <button id="js-increase-long-break-btn" class="controls_btn">+</button>
+                <span id="js-display-long-break-length" class="controls_value"></span>
+                <button id="js-decrease-long-break-btn" class="controls_btn">-</button>
+            </div>
         </div>
 
     </div>
