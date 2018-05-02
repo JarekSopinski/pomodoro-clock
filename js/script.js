@@ -65,7 +65,7 @@ const setInitialState = (type) => {
         case "reset":
             stopCountingTime();
             $timerFiller.css({"height": "0"});
-            const sessionsCompleted = state.sessionsCompleted; // saving value of comp. ses. before resetting
+            const sessionsCompleted = state.sessionsCompleted;
             state = $.extend(true, {}, initialState);
             state.sessionsCompleted = sessionsCompleted;
             displayInitialValues()
@@ -203,29 +203,29 @@ const startCountingTime = (sessionOrBreak) => {
 
         case "session":
             calculateTime(state.sessionLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(subtractSeconds, 200);
             !state.isTimerInitialized ?
-                sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 1000)
+                sessionTimeout = setTimeout(endSession, counter.secondsInCurrentSession * 200)
                 :
-                sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 1000);
+                sessionTimeout = setTimeout(endSession, counter.secondsToSessionEnd * 200);
             break;
 
         case "shortBreak":
             calculateTime(state.shortBreakLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(subtractSeconds, 100);
             !state.isTimerInitialized ?
-                shortBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
+                shortBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 100)
                 :
-                shortBreakTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 1000);
+                shortBreakTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 100);
             break;
 
         case "longBreak":
             calculateTime(state.longBreakLength);
-            secondsInterval = setInterval(subtractSeconds, 1000);
+            secondsInterval = setInterval(subtractSeconds, 100);
             !state.isTimerInitialized ?
-                longBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 1000)
+                longBreakTimeout = setTimeout(endBreak, counter.secondsInCurrentSession * 100)
                 :
-                longBreakTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 1000);
+                longBreakTimeout = setTimeout(endBreak, counter.secondsToSessionEnd * 100);
 
     }
 
@@ -251,18 +251,32 @@ const subtractSeconds = () => {
     counter.secondsInCurrentMinute--;
     counter.minutesToSessionEnd = Math.ceil(counter.secondsToSessionEnd / 60);
 
-    counter.secondsInCurrentMinute < 10 ?
-        displayedSeconds = `0${counter.secondsInCurrentMinute}`
-        :
-        displayedSeconds = counter.secondsInCurrentMinute;
+    if (counter.secondsInCurrentMinute > 0) {
 
-    if (counter.minutesToSessionEnd === 0) {displayedMinutes = "00"}
-    else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 11) {displayedMinutes = `0${ counter.minutesToSessionEnd - 1}`}
-    else {displayedMinutes = counter.minutesToSessionEnd - 1}
+        counter.secondsInCurrentMinute < 10 ?
+            displayedSeconds = `0${counter.secondsInCurrentMinute}`
+            :
+            displayedSeconds = counter.secondsInCurrentMinute;
 
-    $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
+        if (counter.minutesToSessionEnd === 0) {
+            displayedMinutes = "00"
+        }
+        else if (counter.minutesToSessionEnd > 0 && counter.minutesToSessionEnd < 11) {
+            displayedMinutes = `0${ counter.minutesToSessionEnd - 1}`
+        }
+        else {
+            displayedMinutes = counter.minutesToSessionEnd - 1
+        }
 
-    if (counter.secondsInCurrentMinute === 0) {counter.secondsInCurrentMinute = 60}
+        $displayTimeLeft.text(`${displayedMinutes}:${displayedSeconds}`);
+
+    }
+
+    else {
+        displayedMinutes = counter.minutesToSessionEnd;
+        $displayTimeLeft.text(`${displayedMinutes}:00`);
+        counter.secondsInCurrentMinute = 60
+    }
 
     fillTimerWithColor();
 
