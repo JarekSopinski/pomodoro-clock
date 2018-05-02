@@ -12,7 +12,8 @@
   font-family: "Lobster", cursive;
   font-size: 50px;
   color: #E0FBFC;
-  text-align: center; }
+  text-align: center;
+  transition: 2s; }
 
 .main {
   margin-top: 20px; }
@@ -63,11 +64,8 @@
   width: 250px;
   height: 250px;
   border: 5px #E0FBFC solid;
-  transition: background-color, 2s;
+  transition: 2s;
   cursor: pointer; }
-
-.main_timer:hover {
-  background-color: #FB5607; }
 
 .timer_filler {
   z-index: 1;
@@ -99,6 +97,9 @@
   display: block;
   margin-bottom: 10px; }
 
+.timer_time-left:hover {
+  color: #FB5607; }
+
 .main_additional-buttons {
   display: flex;
   flex-flow: wrap;
@@ -115,11 +116,7 @@
   height: 50px;
   width: 100px;
   border: 2px solid #E0FBFC;
-  transition: background-color, 2s;
   cursor: pointer; }
-
-.additional-buttons_container:hover {
-  background-color: #FB5607; }
 
 .additional-buttons_container_text {
   font-family: "Montserrat", sans-serif;
@@ -127,6 +124,9 @@
   color: #E0FBFC;
   text-align: center;
   text-transform: uppercase; }
+
+.additional-buttons_container_text:hover {
+  color: #FB5607; }
 
 .additional-buttons_container_help-popup {
   z-index: 3;

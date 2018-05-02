@@ -408,8 +408,8 @@ $(document).ready(() => {
     $increaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "increment"));
     $decreaseLongBreakLengthBtn.on("click", () => changeSettings("longBreak", "decrement"));
 
-    $showHelpPopupBtn.on("click", () => $helpPopUp.removeClass("hidden-item"));
-    $closeHelpPopupBtn.on("click", () => $helpPopUp.addClass("hidden-item"));
+    $showHelpPopupBtn.on("click", () => $helpPopUp.toggleClass("hidden-item"));
+    $closeHelpPopupBtn.on( "click", (event) => { event.stopPropagation(); $helpPopUp.toggleClass("hidden-item")} );
 
     $resetBtn.on("click", () => setInitialState("reset"))
 
