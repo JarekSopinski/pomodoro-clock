@@ -153,37 +153,38 @@
   justify-content: center; }
 
 .settings_container {
-  margin: 0 5px; }
+  width: 100%;
+  margin-bottom: 20px; }
 
 .settings_container_title {
   font-family: "Montserrat", sans-serif;
   font-size: 15px;
   color: #E0FBFC;
   text-align: center;
+  display: block;
+  margin: 0 auto;
   text-transform: uppercase; }
 
 .settings_container_controls {
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
-  margin: 10px 0; }
+  justify-content: center; }
 
 .controls_btn {
   font-family: "Montserrat", sans-serif;
-  font-size: 15px;
+  font-size: 40px;
   color: #E0FBFC;
   text-align: center;
   background-color: inherit;
   border: none;
-  cursor: pointer;
-  margin: 0 5px; }
+  cursor: pointer; }
 
 .controls_btn:hover {
   color: #FB5607; }
 
 .controls_value {
   font-family: "Montserrat", sans-serif;
-  font-size: 25px;
+  font-size: 50px;
   color: #E0FBFC;
   text-align: center; }
 
@@ -243,7 +244,8 @@
     padding: 50px; }
 
   .settings_container {
-    margin: 0 20px; }
+    margin: 0 20px;
+    width: 150px; }
 
   .controls_btn {
     font-family: "Montserrat", sans-serif;
