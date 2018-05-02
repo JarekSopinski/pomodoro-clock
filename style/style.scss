@@ -92,6 +92,12 @@ $light-font: 'Montserrat', sans-serif;
   width: 250px;
   height: 250px;
   border: 5px $light-cyan solid;
+  transition: background-color, 2s;
+  cursor: pointer;
+}
+
+.main_timer:hover {
+  background-color: $orange;
 }
 
 .timer_filler {
@@ -119,11 +125,6 @@ $light-font: 'Montserrat', sans-serif;
   @include text($light-font, 45px);
   display: block;
   margin-bottom: 10px;
-  cursor: pointer;
-}
-
-.timer_time-left:hover {
-  color: $orange;
 }
 
 .main_additional-buttons {
@@ -139,16 +140,17 @@ $light-font: 'Montserrat', sans-serif;
   height: 50px;
   width: 100px;
   border: 2px solid $light-cyan;
+  transition: background-color, 2s;
   cursor: pointer;
+}
+
+.additional-buttons_container:hover {
+  background-color: $orange;
 }
 
 .additional-buttons_container_text {
   @include text($light-font, 15px);
   text-transform: uppercase;
-}
-
-.additional-buttons_container_text:hover {
-  color: $orange;
 }
 
 .additional-buttons_container_help-popup {
