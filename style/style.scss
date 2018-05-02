@@ -98,7 +98,7 @@ $light-font: 'Montserrat', sans-serif;
 
 .main_additional-buttons {
   @include flex-container;
-  margin: 20px auto 40px auto;
+  margin: 20px auto;
 }
 
 .additional-buttons_container {
@@ -154,7 +154,7 @@ $light-font: 'Montserrat', sans-serif;
 .main_sessions-counter {
   @include flex-container;
   flex-flow: nowrap;
-  margin: 20px auto 40px auto;
+  margin: 20px auto;
 }
 
 .sessions-counter_container {
@@ -209,7 +209,7 @@ $light-font: 'Montserrat', sans-serif;
 
 .footer {
   @include flex-container;
-  margin: 40px 0;
+  margin: 20px 0;
 }
 
 .footer_text {
@@ -248,11 +248,19 @@ $light-font: 'Montserrat', sans-serif;
     @include text($light-font, 60px);
   }
 
+  .main_additional-buttons {
+    margin: 20px auto 40px auto;
+  }
+
   .additional-buttons_container_help-popup {
     bottom: 60px;
     right: -130px;
     min-width: 400px;
     padding: 50px;
+  }
+
+  .main_sessions-counter {
+    margin: 20px auto 40px auto;
   }
 
   .settings_container {
@@ -267,6 +275,10 @@ $light-font: 'Montserrat', sans-serif;
 
   .controls_value {
     @include text($light-font, 35px);
+  }
+
+  .footer {
+    margin: 60px 0 40px 0;
   }
 
 }

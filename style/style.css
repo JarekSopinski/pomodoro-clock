@@ -64,7 +64,7 @@
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  margin: 20px auto 40px auto; }
+  margin: 20px auto; }
 
 .additional-buttons_container {
   display: flex;
@@ -125,7 +125,7 @@
   flex-flow: wrap;
   justify-content: center;
   flex-flow: nowrap;
-  margin: 20px auto 40px auto; }
+  margin: 20px auto; }
 
 .sessions-counter_container {
   margin: 0 20px; }
@@ -192,7 +192,7 @@
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  margin: 40px 0; }
+  margin: 20px 0; }
 
 .footer_text {
   font-family: "Montserrat", sans-serif;
@@ -237,11 +237,17 @@
     color: #E0FBFC;
     text-align: center; }
 
+  .main_additional-buttons {
+    margin: 20px auto 40px auto; }
+
   .additional-buttons_container_help-popup {
     bottom: 60px;
     right: -130px;
     min-width: 400px;
     padding: 50px; }
+
+  .main_sessions-counter {
+    margin: 20px auto 40px auto; }
 
   .settings_container {
     margin: 0 20px;
@@ -260,6 +266,9 @@
     font-family: "Montserrat", sans-serif;
     font-size: 35px;
     color: #E0FBFC;
-    text-align: center; } }
+    text-align: center; }
+
+  .footer {
+    margin: 60px 0 40px 0; } }
 
 /*# sourceMappingURL=style.css.map */
