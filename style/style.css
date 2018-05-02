@@ -18,46 +18,6 @@
 .main {
   margin-top: 20px; }
 
-.main_settings {
-  display: flex;
-  flex-flow: wrap;
-  justify-content: center; }
-
-.settings_container {
-  margin: 0 5px; }
-
-.settings_container_title {
-  font-family: "Montserrat", sans-serif;
-  font-size: 15px;
-  color: #E0FBFC;
-  text-align: center;
-  text-transform: uppercase; }
-
-.settings_container_controls {
-  display: flex;
-  flex-flow: wrap;
-  justify-content: center;
-  margin: 10px 0; }
-
-.controls_btn {
-  font-family: "Montserrat", sans-serif;
-  font-size: 15px;
-  color: #E0FBFC;
-  text-align: center;
-  background-color: inherit;
-  border: none;
-  cursor: pointer;
-  margin: 0 5px; }
-
-.controls_btn:hover {
-  color: #FB5607; }
-
-.controls_value {
-  font-family: "Montserrat", sans-serif;
-  font-size: 25px;
-  color: #E0FBFC;
-  text-align: center; }
-
 .main_timer {
   position: relative;
   margin: 20px auto 0 auto;
@@ -187,11 +147,51 @@
   display: block;
   margin: auto; }
 
+.main_settings {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center; }
+
+.settings_container {
+  margin: 0 5px; }
+
+.settings_container_title {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #E0FBFC;
+  text-align: center;
+  text-transform: uppercase; }
+
+.settings_container_controls {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  margin: 10px 0; }
+
+.controls_btn {
+  font-family: "Montserrat", sans-serif;
+  font-size: 15px;
+  color: #E0FBFC;
+  text-align: center;
+  background-color: inherit;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px; }
+
+.controls_btn:hover {
+  color: #FB5607; }
+
+.controls_value {
+  font-family: "Montserrat", sans-serif;
+  font-size: 25px;
+  color: #E0FBFC;
+  text-align: center; }
+
 .footer {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  margin: 20px 0; }
+  margin: 40px 0; }
 
 .footer_text {
   font-family: "Montserrat", sans-serif;
@@ -218,24 +218,6 @@
   .main {
     margin-top: 40px; }
 
-  .settings_container {
-    margin: 0 20px; }
-
-  .controls_btn {
-    font-family: "Montserrat", sans-serif;
-    font-size: 25px;
-    color: #E0FBFC;
-    text-align: center;
-    background-color: inherit;
-    border: none;
-    cursor: pointer; }
-
-  .controls_value {
-    font-family: "Montserrat", sans-serif;
-    font-size: 35px;
-    color: #E0FBFC;
-    text-align: center; }
-
   .main_timer {
     margin: 40px auto 0 auto;
     width: 350px;
@@ -258,6 +240,24 @@
     bottom: 60px;
     right: -130px;
     min-width: 400px;
-    padding: 50px; } }
+    padding: 50px; }
+
+  .settings_container {
+    margin: 0 20px; }
+
+  .controls_btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 25px;
+    color: #E0FBFC;
+    text-align: center;
+    background-color: inherit;
+    border: none;
+    cursor: pointer; }
+
+  .controls_value {
+    font-family: "Montserrat", sans-serif;
+    font-size: 35px;
+    color: #E0FBFC;
+    text-align: center; } }
 
 /*# sourceMappingURL=style.css.map */

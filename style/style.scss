@@ -55,38 +55,6 @@ $light-font: 'Montserrat', sans-serif;
   margin-top: 20px;
 }
 
-.main_settings {
-  @include flex-container
-}
-
-.settings_container {
-  margin: 0 5px;
-}
-
-.settings_container_title {
-  @include text($light-font, 15px);
-  text-transform: uppercase;
-}
-
-.settings_container_controls {
-  @include flex-container;
-  margin: 10px 0;
-}
-
-.controls_btn {
-  @include text($light-font, 15px);
-  @include button;
-  margin: 0 5px;
-}
-
-.controls_btn:hover {
-  color: $orange;
-}
-
-.controls_value {
-  @include text($light-font, 25px);
-}
-
 .main_timer {
   position: relative;
   margin: 20px auto 0 auto;
@@ -206,9 +174,41 @@ $light-font: 'Montserrat', sans-serif;
   margin: auto;
 }
 
+.main_settings {
+  @include flex-container;
+}
+
+.settings_container {
+  margin: 0 5px;
+}
+
+.settings_container_title {
+  @include text($light-font, 15px);
+  text-transform: uppercase;
+}
+
+.settings_container_controls {
+  @include flex-container;
+  margin: 10px 0;
+}
+
+.controls_btn {
+  @include text($light-font, 15px);
+  @include button;
+  margin: 0 5px;
+}
+
+.controls_btn:hover {
+  color: $orange;
+}
+
+.controls_value {
+  @include text($light-font, 25px);
+}
+
 .footer {
   @include flex-container;
-  margin: 20px 0;
+  margin: 40px 0;
 }
 
 .footer_text {
@@ -232,19 +232,6 @@ $light-font: 'Montserrat', sans-serif;
     margin-top: 40px;
   }
 
-  .settings_container {
-    margin: 0 20px;
-  }
-
-  .controls_btn {
-    @include text($light-font, 25px);
-    @include button
-  }
-
-  .controls_value {
-    @include text($light-font, 35px);
-  }
-
   .main_timer {
     margin: 40px auto 0 auto;
     width: 350px;
@@ -265,6 +252,19 @@ $light-font: 'Montserrat', sans-serif;
     right: -130px;
     min-width: 400px;
     padding: 50px;
+  }
+
+  .settings_container {
+    margin: 0 20px;
+  }
+
+  .controls_btn {
+    @include text($light-font, 25px);
+    @include button
+  }
+
+  .controls_value {
+    @include text($light-font, 35px);
   }
 
 }
