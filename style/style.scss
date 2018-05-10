@@ -48,7 +48,6 @@ $light-font: 'Montserrat', sans-serif;
 
 .header_title {
   @include text($bold-font, 50px);
-  transition: 2s;
 }
 
 .main {
@@ -61,7 +60,6 @@ $light-font: 'Montserrat', sans-serif;
   width: 250px;
   height: 250px;
   border: 5px $light-cyan solid;
-  transition: 2s;
   cursor: pointer;
 }
 

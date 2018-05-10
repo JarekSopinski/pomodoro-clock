@@ -12,8 +12,7 @@
   font-family: "Lobster", cursive;
   font-size: 50px;
   color: #E0FBFC;
-  text-align: center;
-  transition: 2s; }
+  text-align: center; }
 
 .main {
   margin-top: 20px; }
@@ -24,7 +23,6 @@
   width: 250px;
   height: 250px;
   border: 5px #E0FBFC solid;
-  transition: 2s;
   cursor: pointer; }
 
 .timer_filler {
